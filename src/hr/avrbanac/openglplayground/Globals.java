@@ -12,8 +12,8 @@ public class Globals {
     public static final int DISPLAY_HEIGHT          = 720;
     public static final String DISPLAY_TITLE        = "GLFW window";
     
-    public static final String VERTEX_FILE          = "src/hr/avrbanac/opengltutorial/shaders/shader.vert";
-    public static final String FRAGMENT_FILE        = "src/hr/avrbanac/opengltutorial/shaders/shader.frag";
+    public static final String VERTEX_FILE          = "src/hr/avrbanac/openglplayground/shaders/shader.vert";
+    public static final String FRAGMENT_FILE        = "src/hr/avrbanac/openglplayground/shaders/shader.frag";
     
     public static final String TEXTURE_TYPE         = "PNG";
     public static final String TEXTURE_FOLDER       = "res/";

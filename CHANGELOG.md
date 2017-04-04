@@ -6,11 +6,12 @@ All Notable changes to `OpenGL Playground` will be documented in this file.
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
 ## [Unreleased]
-- Build up running version of something where 3D can be tested
+- Something more advance
 
-## [1.0.0] - 2017-04-04 @avrbanac [YANKED]
+## [1.0.0] - 2017-04-04 @avrbanac
 
 ### Added
+- OpenGLPlayground code with main method as a point of entry for application
 - render engine with ModelLoader class and ModelRenderer class
 - Entity class as model wrapper
 - ModelTexture class
@@ -29,7 +30,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - Nothing
 
 ### Fixed
-- Nothing
+- vertex and fragment shader paths in Globals class
 
 ### Removed
 - Nothing
