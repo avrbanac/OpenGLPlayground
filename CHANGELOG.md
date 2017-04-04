@@ -8,9 +8,16 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## [Unreleased]
 - Build up running version of something where 3D can be tested
 
-## [1.0.0] - 2017-04-04 @avrbanac
+## [1.0.0] - 2017-04-04 @avrbanac [YANKED]
 
 ### Added
+- Camera class construct needed for viewMatrix management
+- Vector3f and Matrix4f custom classes for matrix math manipulation
+- BufferUtils class for buffer memory management
+- ShaderProgram abstract class for writing shader programs
+- vertex shader and fragment shader written in GLSL
+- Globals class to keep all globals encapsulated in one place
+- DisplayManager class for OpenGL display management
 - documentation
 - GIT placeholder
 
