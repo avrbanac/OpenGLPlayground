@@ -11,6 +11,10 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## [1.0.0] - 2017-04-04 @avrbanac [YANKED]
 
 ### Added
+- render engine with ModelLoader class and ModelRenderer class
+- Entity class as model wrapper
+- ModelTexture class
+- RawModel and TexturedModel classes
 - Camera class construct needed for viewMatrix management
 - Vector3f and Matrix4f custom classes for matrix math manipulation
 - BufferUtils class for buffer memory management
