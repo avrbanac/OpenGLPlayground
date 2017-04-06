@@ -11,7 +11,7 @@ import org.lwjgl.glfw.GLFW;
  * Custom matrix math class needed for matrix manipulation.
  * 
  * @author avrbanac
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class Matrix4f {
     
@@ -205,15 +205,15 @@ public class Matrix4f {
     public static Matrix4f view(Camera camera) {
         Matrix4f rotationXMatrix = rotate(camera.getPitch(),1,0,0);
         Matrix4f rotationYMatrix = rotate(camera.getYaw(),0,1,0);
-//        Matrix4f rotationZMatrix = rotate(camera.getRoll(),0,0,1);
+        Matrix4f rotationZMatrix = rotate(camera.getRoll(),0,0,1);
         
         // for view Matrix movement everything must be reversed
         Vector3f cameraPosition     = camera.getPosition();
         Vector3f negativeCameraPos  = new Vector3f(-cameraPosition.x, -cameraPosition.y, -cameraPosition.z);
         Matrix4f translateMatrix = translate(negativeCameraPos);
         
-        return (rotationXMatrix
-//                .multiply(rotationZMatrix))
+        return ((rotationXMatrix
+                .multiply(rotationZMatrix))
                 .multiply(rotationYMatrix))
                 .multiply(translateMatrix);
     }

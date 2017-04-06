@@ -15,7 +15,7 @@ import org.lwjgl.opengl.GL30;
  * Renders model from VAO.
  * 
  * @author avrbanac
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class ModelRenderer {
     
@@ -34,8 +34,8 @@ public class ModelRenderer {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         // clear the color from previous frame
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-        // clear everything with background color (red in this case)
-        GL11.glClearColor(1, 0, 0, 1);
+        // clear everything with background color (black in this case)
+        GL11.glClearColor(0, 0, 0, 1);
     }
     
     public void render(Entity entity, StaticShader shader) {

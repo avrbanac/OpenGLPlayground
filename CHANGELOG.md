@@ -8,6 +8,14 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## [Unreleased]
 - Something more advance
 
+## [1.0.1] - 2017-04-06 @avrbanac
+
+### Added
+- model and texture resource files (examples)
+- new matrix manipulation
+- Vector2f math class
+- OBJ loader
+
 ## [1.0.0] - 2017-04-04 @avrbanac
 
 ### Added

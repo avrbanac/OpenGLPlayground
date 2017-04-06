@@ -5,7 +5,7 @@ package hr.avrbanac.openglplayground;
  * Single place to hold all graphic globals.
  * 
  * @author avrbanac
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class Globals {
     public static final int DISPLAY_WIDTH           = 1280;
@@ -18,6 +18,8 @@ public class Globals {
     public static final String TEXTURE_TYPE         = "PNG";
     public static final String TEXTURE_FOLDER       = "res/";
     public static final String TEXTURE_EXTENSION    = ".png";
+    public static final String MODEL_FOLDER         = "res/";
+    public static final String MODEL_EXTENSION      = ".obj";
     
     public static final float FOV                   = 70;
     public static final float NEAR_PLANE            = 0.1f;

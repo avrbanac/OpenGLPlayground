@@ -8,7 +8,7 @@ import static org.lwjgl.glfw.GLFW.*;
  * Camera representation class.
  * 
  * @author avrbanac
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class Camera {
     
@@ -39,9 +39,9 @@ public class Camera {
     }
     
     public void move() {
-        if(glfwGetKey(windowID, GLFW_KEY_W) == GLFW_PRESS) position.z-=0.02f;
-        if(glfwGetKey(windowID, GLFW_KEY_D) == GLFW_PRESS) position.x+=0.02f;
-        if(glfwGetKey(windowID, GLFW_KEY_A) == GLFW_PRESS) position.x-=0.02f;
+        if(glfwGetKey(windowID, GLFW_KEY_W) == GLFW_PRESS) position.z-=0.2f;
+        if(glfwGetKey(windowID, GLFW_KEY_D) == GLFW_PRESS) position.x+=0.2f;
+        if(glfwGetKey(windowID, GLFW_KEY_A) == GLFW_PRESS) position.x-=0.2f;
     }
     
 }
