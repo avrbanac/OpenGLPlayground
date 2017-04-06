@@ -22,7 +22,7 @@ import javax.imageio.ImageIO;
  * Loads a model into memory by storing data into VAO.
  * 
  * @author avrbanac
- * @version 1.0.0
+ * @version 1.0.2
  */
 public class ModelLoader {
     
@@ -30,13 +30,15 @@ public class ModelLoader {
     private List<Integer> vbos = new ArrayList<>();
     private List<Integer> texs = new ArrayList<>();
     
-    public RawModel loadToVAO(float[] positions, float[] textureCoords, int[] indices) {
+    public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices) {
         int vaoID = createVAO();
         bindIndicesBuffer(indices);
         // in attribute 0 of VAO is VBO containing positions
         storeDataInAttributeList(0, 3, positions);
         // in attribute 1 of VAO is VBO containing texture coordinates
         storeDataInAttributeList(1, 2, textureCoords);
+        // in attribute 2 of VAO store normals (for lightning)
+        storeDataInAttributeList(2, 3, normals);
         
         unbindVAO();
         

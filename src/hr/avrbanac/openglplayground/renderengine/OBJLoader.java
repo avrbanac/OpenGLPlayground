@@ -16,7 +16,7 @@ import java.util.List;
  * Loader for OBJ models.
  * 
  * @author avrbanac
- * @version 1.0.0
+ * @version 1.0.2
  */
 public class OBJLoader {
     public static RawModel loadObjModel(String fileName, ModelLoader loader) {
@@ -111,7 +111,7 @@ public class OBJLoader {
             indicesArray[i] = indices.get(i);
         }
         
-        return loader.loadToVAO(verticesArray, texturesArray, indicesArray);
+        return loader.loadToVAO(verticesArray, texturesArray, normalsArray, indicesArray);
     }
     
     private static void processVertex(

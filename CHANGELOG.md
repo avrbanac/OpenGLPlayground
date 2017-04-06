@@ -8,6 +8,16 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## [Unreleased]
 - Something more advance
 
+## [1.0.2] - 2017-04-06 @avrbanac
+
+### Added
+- changes to existing classes and shaders to accommodate lightning
+- normal vector calculation for lightning
+- Light class represents light source
+
+### Fixed
+- movement of camera is now faster and enables moving in all directions
+
 ## [1.0.1] - 2017-04-06 @avrbanac
 
 ### Added

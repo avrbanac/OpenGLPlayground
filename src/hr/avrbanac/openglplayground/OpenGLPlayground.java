@@ -4,6 +4,7 @@ package hr.avrbanac.openglplayground;
 import hr.avrbanac.openglplayground.entities.Entity;
 import hr.avrbanac.openglplayground.display.DisplayManager;
 import hr.avrbanac.openglplayground.entities.Camera;
+import hr.avrbanac.openglplayground.entities.Light;
 import hr.avrbanac.openglplayground.maths.Vector3f;
 import hr.avrbanac.openglplayground.renderengine.ModelLoader;
 import hr.avrbanac.openglplayground.renderengine.ModelRenderer;
@@ -20,7 +21,7 @@ import org.lwjgl.glfw.GLFWErrorCallback;
  * Main class with application point of entry.
  * 
  * @author avrbanac
- * @version 1.0.1
+ * @version 1.0.2
  */
 public class OpenGLPlayground implements Runnable {
 
@@ -73,7 +74,9 @@ public class OpenGLPlayground implements Runnable {
         
         TexturedModel texturedModel = new TexturedModel(model, texture);
         
-        Entity entity = new Entity(texturedModel, new Vector3f(0,0,-50), 0, 0, 0, 1);
+        Entity entity = new Entity(texturedModel, new Vector3f(0,0,-25), 0, 0, 0, 1);
+        Light light = new Light(new Vector3f(0,-10,-20), new Vector3f(1,1,1));
+        
         Camera camera = new Camera(dm.getWindow());
         
         while(isRunning) {
@@ -83,6 +86,7 @@ public class OpenGLPlayground implements Runnable {
             
             renderer.prepare();
             shader.start();
+            shader.loadLight(light); // if its updating - else load it only once
             shader.loadViewMatrix(camera);
             renderer.render(entity, shader);
             shader.stop();
