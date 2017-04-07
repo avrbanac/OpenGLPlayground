@@ -8,6 +8,12 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## [Unreleased]
 - Something more advance
 
+## [1.0.3] - 2017-04-07 @avrbanac
+
+### Added
+- matrix inverse function (GLSL 1.30 does not support inverse function for mat4)
+- specular lightning
+
 ## [1.0.2] - 2017-04-06 @avrbanac
 
 ### Added

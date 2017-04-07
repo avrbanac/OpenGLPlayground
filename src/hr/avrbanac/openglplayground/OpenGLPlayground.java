@@ -21,7 +21,7 @@ import org.lwjgl.glfw.GLFWErrorCallback;
  * Main class with application point of entry.
  * 
  * @author avrbanac
- * @version 1.0.2
+ * @version 1.0.3
  */
 public class OpenGLPlayground implements Runnable {
 
@@ -65,14 +65,16 @@ public class OpenGLPlayground implements Runnable {
         DisplayManager dm = new DisplayManager();
         dm.createDisplay();
         
-        ModelLoader loader      = new ModelLoader();
         StaticShader shader     = new StaticShader();
+        ModelLoader loader      = new ModelLoader();
         ModelRenderer renderer  = new ModelRenderer(shader, dm.getWidth(), dm.getHeight());
         
         RawModel model          = OBJLoader.loadObjModel("Tree", loader);
-        ModelTexture texture    = new ModelTexture(loader.loadTexture("metal"));
+        TexturedModel texturedModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("metal")));
         
-        TexturedModel texturedModel = new TexturedModel(model, texture);
+        ModelTexture texture = texturedModel.getTexture();
+        texture.setShineDamper(10);
+        texture.setReflectivity(1);
         
         Entity entity = new Entity(texturedModel, new Vector3f(0,0,-25), 0, 0, 0, 1);
         Light light = new Light(new Vector3f(0,-10,-20), new Vector3f(1,1,1));

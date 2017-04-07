@@ -6,6 +6,7 @@ import hr.avrbanac.openglplayground.maths.Matrix4f;
 import hr.avrbanac.openglplayground.models.RawModel;
 import hr.avrbanac.openglplayground.models.TexturedModel;
 import hr.avrbanac.openglplayground.shaders.StaticShader;
+import hr.avrbanac.openglplayground.textures.ModelTexture;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -15,7 +16,7 @@ import org.lwjgl.opengl.GL30;
  * Renders model from VAO.
  * 
  * @author avrbanac
- * @version 1.0.2
+ * @version 1.0.3
  */
 public class ModelRenderer {
     
@@ -57,6 +58,10 @@ public class ModelRenderer {
                 entity.getScale());
         
         shader.loadTransformationMatrix(transformationMatrix);
+        
+        // deal with specular lightning
+        ModelTexture texture = tModel.getTexture();
+        shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
         
         // obsolite, we now use indices
         // GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, rModel.getVertexCount());

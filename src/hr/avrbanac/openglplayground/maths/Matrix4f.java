@@ -11,7 +11,7 @@ import org.lwjgl.glfw.GLFW;
  * Custom matrix math class needed for matrix manipulation.
  * 
  * @author avrbanac
- * @version 1.0.1
+ * @version 1.0.3
  */
 public class Matrix4f {
     
@@ -216,6 +216,48 @@ public class Matrix4f {
                 .multiply(rotationZMatrix))
                 .multiply(rotationYMatrix))
                 .multiply(translateMatrix);
+    }
+    
+    public static Matrix4f inverse(Matrix4f matrix) {
+        Matrix4f result = new Matrix4f();
+        
+        float s0 = matrix.elements[0] * matrix.elements[5] - matrix.elements[1] * matrix.elements[4];
+        float s1 = matrix.elements[0] * matrix.elements[9] - matrix.elements[1] * matrix.elements[8];
+        float s2 = matrix.elements[0] * matrix.elements[13] - matrix.elements[1] * matrix.elements[12];
+        float s3 = matrix.elements[4] * matrix.elements[9] - matrix.elements[5] * matrix.elements[8];
+        float s4 = matrix.elements[4] * matrix.elements[13] - matrix.elements[5] * matrix.elements[12];
+        float s5 = matrix.elements[8] * matrix.elements[13] - matrix.elements[9] * matrix.elements[12];
+        
+        float c5 = matrix.elements[10] * matrix.elements[15] - matrix.elements[11] * matrix.elements[14];
+        float c4 = matrix.elements[6] * matrix.elements[15] - matrix.elements[7] * matrix.elements[14];
+        float c3 = matrix.elements[6] * matrix.elements[11] - matrix.elements[7] * matrix.elements[10];
+        float c2 = matrix.elements[2] * matrix.elements[15] - matrix.elements[3] * matrix.elements[14];
+        float c1 = matrix.elements[2] * matrix.elements[11] - matrix.elements[3] * matrix.elements[10];
+        float c0 = matrix.elements[2] * matrix.elements[7] - matrix.elements[3] * matrix.elements[6];
+        
+        float invdet = 1.0f / (s0 * c5 - s1 * c4 + s2 * c3 + s3 * c2 - s4 * c1 + s5 * c0);
+        
+        result.elements[0] = ( matrix.elements[5] * c5 - matrix.elements[9] * c4 + matrix.elements[13] * c3) * invdet;
+        result.elements[4] = (-matrix.elements[4] * c5 + matrix.elements[8] * c4 - matrix.elements[12] * c3) * invdet;
+        result.elements[8] = ( matrix.elements[7] * s5 - matrix.elements[11] * s4 + matrix.elements[15] * s3) * invdet;
+        result.elements[12] = (-matrix.elements[6] * s5 + matrix.elements[10] * s4 - matrix.elements[14] * s3) * invdet;
+
+        result.elements[1] = (-matrix.elements[1] * c5 + matrix.elements[9] * c2 - matrix.elements[13] * c1) * invdet;
+        result.elements[5] = ( matrix.elements[0] * c5 - matrix.elements[8] * c2 + matrix.elements[12] * c1) * invdet;
+        result.elements[9] = (-matrix.elements[3] * s5 + matrix.elements[11] * s2 - matrix.elements[15] * s1) * invdet;
+        result.elements[13] = ( matrix.elements[2] * s5 - matrix.elements[10] * s2 + matrix.elements[14] * s1) * invdet;
+
+        result.elements[2] = ( matrix.elements[1] * c4 - matrix.elements[5] * c2 + matrix.elements[13] * c0) * invdet;
+        result.elements[6] = (-matrix.elements[0] * c4 + matrix.elements[4] * c2 - matrix.elements[12] * c0) * invdet;
+        result.elements[10] = ( matrix.elements[3] * s4 - matrix.elements[7] * s2 + matrix.elements[15] * s0) * invdet;
+        result.elements[14] = (-matrix.elements[2] * s4 + matrix.elements[6] * s2 - matrix.elements[14] * s0) * invdet;
+
+        result.elements[3] = (-matrix.elements[1] * c3 + matrix.elements[5] * c1 - matrix.elements[9] * c0) * invdet;
+        result.elements[7] = ( matrix.elements[0] * c3 - matrix.elements[4] * c1 + matrix.elements[8] * c0) * invdet;
+        result.elements[11] = (-matrix.elements[3] * s3 + matrix.elements[7] * s1 - matrix.elements[11] * s0) * invdet;
+        result.elements[15] = ( matrix.elements[2] * s3 - matrix.elements[6] * s1 + matrix.elements[10] * s0) * invdet;
+        
+        return result;
     }
     
     public FloatBuffer toFloatBuffer() {

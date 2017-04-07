@@ -10,7 +10,7 @@ import hr.avrbanac.openglplayground.maths.Matrix4f;
  * This is just an implementation of abstract class {@ShaderProgram}
  * 
  * @author avrbanac
- * @version 1.0.2
+ * @version 1.0.3
  */
 public class StaticShader extends ShaderProgram {
 
@@ -19,6 +19,9 @@ public class StaticShader extends ShaderProgram {
     private int locationViewMatrix;
     private int locationLightPosition;
     private int locationLightColor;
+    private int locationShineDamper;
+    private int locationReflectivity;
+    private int locationViewMatrixInverse;
     
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -38,6 +41,11 @@ public class StaticShader extends ShaderProgram {
         locationViewMatrix              = super.getUniformLocation("viewMatrix");
         locationLightPosition           = super.getUniformLocation("lightPosition");
         locationLightColor              = super.getUniformLocation("lightColor");
+        locationShineDamper             = super.getUniformLocation("shineDamper");
+        locationReflectivity            = super.getUniformLocation("reflectivity");
+        
+        //this can be done in vertex shader using inverse of viewMatrix if GLSL version supports it
+        locationViewMatrixInverse       = super.getUniformLocation("viewMatrixInv");
         
     }
     
@@ -47,15 +55,24 @@ public class StaticShader extends ShaderProgram {
     
     public void loadViewMatrix(Camera camera) {
         Matrix4f viewMatrix = Matrix4f.view(camera);
+        Matrix4f viewMatrixInv = Matrix4f.inverse(viewMatrix);
         super.loadMatrix(locationViewMatrix, viewMatrix);
+        super.loadMatrix(locationViewMatrixInverse, viewMatrixInv);
     }
     
     public void loadProjectionMatrix(Matrix4f matrix) {
         super.loadMatrix(locationProjectionMatrix, matrix);
     }
     
+    // diffusal lightning
     public void loadLight(Light light) {
         super.loadVector(locationLightPosition, light.getPosition());
         super.loadVector(locationLightColor, light.getColor());
+    }
+    
+    // specular lightning
+    public void loadShineVariables(float shineDamper, float reflectivity) {
+        super.loadFloat(locationShineDamper, shineDamper);
+        super.loadFloat(locationReflectivity, reflectivity);
     }
 }

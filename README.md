@@ -20,7 +20,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 ### OpenGL
 
-Had some problems with OpenGL capabilities with current machine im writhing this on, instead of using
+Had some problems with GLSL and the current machine im writhing this on, instead of using
 version 400 CORE im stuck with 1.30 for shaders. This can be defined in _shader.vert_ and _shader.frag_ files.
 
 It is important to use a version that enables the use of uniform variables in shader programs.
@@ -29,7 +29,7 @@ It is important to use a version that enables the use of uniform variables in sh
 
 ~Application is currently under construction. Target version for something that works is 1.0.0.~
 
-Application is currently in version 1.0.2.
+Application is currently in version 1.0.3.
 
 LWJGL library used for this project is in version 3.
 
