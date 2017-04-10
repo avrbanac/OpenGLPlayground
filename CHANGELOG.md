@@ -8,6 +8,16 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## [Unreleased]
 - Something more advance
 
+## [1.0.4] - 2017-04-10 @avrbanac
+
+### Added
+- Terrain classes for terrain addition together with shaders and shader programs
+- MasterRenderer class to optimize rendering of multiple object of the same type
+
+### Fixed
+- moved public prepare method from EntityRenderer to 
+- renamed ModelRenderer to EntityRenderer
+
 ## [1.0.3] - 2017-04-07 @avrbanac
 
 ### Added

@@ -47,4 +47,8 @@ public class Camera {
         if(glfwGetKey(windowID, GLFW_KEY_F) == GLFW_PRESS) position.y-=0.2f;
     }
     
+    public void setPosition(Vector3f position) {
+        this.position = position;
+    }
+    
 }

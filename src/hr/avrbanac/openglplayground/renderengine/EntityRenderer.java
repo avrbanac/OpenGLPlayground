@@ -7,6 +7,8 @@ import hr.avrbanac.openglplayground.models.RawModel;
 import hr.avrbanac.openglplayground.models.TexturedModel;
 import hr.avrbanac.openglplayground.shaders.StaticShader;
 import hr.avrbanac.openglplayground.textures.ModelTexture;
+import java.util.List;
+import java.util.Map;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -18,27 +20,72 @@ import org.lwjgl.opengl.GL30;
  * @author avrbanac
  * @version 1.0.3
  */
-public class ModelRenderer {
+public class EntityRenderer {
     
-    private Matrix4f projectionMatrix;
+    private StaticShader shader;
     
-    public ModelRenderer(StaticShader shader, int screenWidth, int screenHeight) {
-        // we load projection matrix only once - so it's in the constructor
-        projectionMatrix = Matrix4f.projection(screenWidth, screenHeight);
+    public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix) {
+        this.shader = shader;
+
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);
         shader.stop();
     }
     
-    public void prepare() {
-        // test which triangles are "in front" of others
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        // clear the color from previous frame
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-        // clear everything with background color (black in this case)
-        GL11.glClearColor(0, 0, 0, 1);
+    /**
+     * New render model for rendering multiple models.
+     * 
+     * @param entities 
+     */
+    public void render (Map<TexturedModel, List<Entity>> entities) {
+        for(TexturedModel model : entities.keySet()) {
+            prepareTexturedModel(model);
+            List<Entity> batch = entities.get(model);
+            for(Entity entity : batch) {
+                prepareInstance(entity);
+                GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+            }
+            unbindTexturedModel();
+        }
     }
     
+    public void prepareTexturedModel(TexturedModel model) {
+        RawModel rModel = model.getRawModel();
+        GL30.glBindVertexArray(rModel.getVaoID());
+        GL20.glEnableVertexAttribArray(0);
+        GL20.glEnableVertexAttribArray(1);
+        GL20.glEnableVertexAttribArray(2);
+        
+        ModelTexture texture = model.getTexture();
+        shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getTextureID());
+    }
+    
+    public void unbindTexturedModel() {
+        GL20.glDisableVertexAttribArray(0);
+        GL20.glDisableVertexAttribArray(1);
+        GL20.glDisableVertexAttribArray(2);
+        GL30.glBindVertexArray(0);
+    }
+    
+    public void prepareInstance(Entity entity) {
+        Matrix4f transformationMatrix = Matrix4f.transformation(
+                entity.getPosition(),
+                entity.getRotX(),
+                entity.getRotY(),
+                entity.getRotZ(),
+                entity.getScale());
+        shader.loadTransformationMatrix(transformationMatrix);
+    }
+    
+    /**
+     * Old render method used for rendering single model.
+     * 
+     * @param entity
+     * @param shader 
+     */
+    @Deprecated
     public void render(Entity entity, StaticShader shader) {
         TexturedModel tModel = entity.getModel();
         RawModel rModel = tModel.getRawModel();
@@ -73,6 +120,7 @@ public class ModelRenderer {
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, tModel.getTexture().getTextureID());
         
         GL11.glDrawElements(GL11.GL_TRIANGLES, rModel.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+        
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
         GL20.glDisableVertexAttribArray(2);

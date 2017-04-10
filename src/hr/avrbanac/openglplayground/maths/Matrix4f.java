@@ -176,8 +176,8 @@ public class Matrix4f {
         return projection(DISPLAY_WIDTH, DISPLAY_HEIGHT, FOV, NEAR_PLANE, FAR_PLANE);
     }
     
-    public static Matrix4f projection(int screenWidth, int screenHeight) {
-        return projection(screenWidth, screenHeight, FOV, NEAR_PLANE, FAR_PLANE);
+    public static Matrix4f projection(int screenWidth, int screenHeight, float fov) {
+        return projection(screenWidth, screenHeight, fov, NEAR_PLANE, FAR_PLANE);
     }
     
     public static Matrix4f projection(int screenWidth, int screenHeight, float fov, float nearPlane, float farPlane) {
@@ -221,19 +221,19 @@ public class Matrix4f {
     public static Matrix4f inverse(Matrix4f matrix) {
         Matrix4f result = new Matrix4f();
         
-        float s0 = matrix.elements[0] * matrix.elements[5] - matrix.elements[1] * matrix.elements[4];
-        float s1 = matrix.elements[0] * matrix.elements[9] - matrix.elements[1] * matrix.elements[8];
+        float s0 = matrix.elements[0] * matrix.elements[5]  - matrix.elements[1] * matrix.elements[4];
+        float s1 = matrix.elements[0] * matrix.elements[9]  - matrix.elements[1] * matrix.elements[8];
         float s2 = matrix.elements[0] * matrix.elements[13] - matrix.elements[1] * matrix.elements[12];
-        float s3 = matrix.elements[4] * matrix.elements[9] - matrix.elements[5] * matrix.elements[8];
+        float s3 = matrix.elements[4] * matrix.elements[9]  - matrix.elements[5] * matrix.elements[8];
         float s4 = matrix.elements[4] * matrix.elements[13] - matrix.elements[5] * matrix.elements[12];
         float s5 = matrix.elements[8] * matrix.elements[13] - matrix.elements[9] * matrix.elements[12];
         
-        float c5 = matrix.elements[10] * matrix.elements[15] - matrix.elements[11] * matrix.elements[14];
-        float c4 = matrix.elements[6] * matrix.elements[15] - matrix.elements[7] * matrix.elements[14];
-        float c3 = matrix.elements[6] * matrix.elements[11] - matrix.elements[7] * matrix.elements[10];
-        float c2 = matrix.elements[2] * matrix.elements[15] - matrix.elements[3] * matrix.elements[14];
-        float c1 = matrix.elements[2] * matrix.elements[11] - matrix.elements[3] * matrix.elements[10];
-        float c0 = matrix.elements[2] * matrix.elements[7] - matrix.elements[3] * matrix.elements[6];
+        float c5 = matrix.elements[10]  * matrix.elements[15]   - matrix.elements[11]   * matrix.elements[14];
+        float c4 = matrix.elements[6]   * matrix.elements[15]   - matrix.elements[7]    * matrix.elements[14];
+        float c3 = matrix.elements[6]   * matrix.elements[11]   - matrix.elements[7]    * matrix.elements[10];
+        float c2 = matrix.elements[2]   * matrix.elements[15]   - matrix.elements[3]    * matrix.elements[14];
+        float c1 = matrix.elements[2]   * matrix.elements[11]   - matrix.elements[3]    * matrix.elements[10];
+        float c0 = matrix.elements[2]   * matrix.elements[7]    - matrix.elements[3]    * matrix.elements[6];
         
         float invdet = 1.0f / (s0 * c5 - s1 * c4 + s2 * c3 + s3 * c2 - s4 * c1 + s5 * c0);
         
