@@ -1,5 +1,5 @@
 
-package hr.avrbanac.openglplayground.renderengine;
+package hr.avrbanac.openglplayground.loaders;
 
 import static hr.avrbanac.openglplayground.Globals.*;
 import hr.avrbanac.openglplayground.maths.Vector2f;
@@ -13,12 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Loader for OBJ models.
+ * Loader for OBJ models. Instead of using this loader, there is newer loader for
+ * OBJ models that supports texture scenes.
  * 
  * @author avrbanac
  * @version 1.0.2
  */
-public class OBJLoader {
+public class OBJSimpleLoader {
     public static RawModel loadObjModel(String fileName, ModelLoader loader) {
         FileReader fr = null;
         try {

@@ -1,11 +1,9 @@
 
-package hr.avrbanac.openglplayground.renderengine;
+package hr.avrbanac.openglplayground.renderers;
 
-import hr.avrbanac.openglplayground.entities.Entity;
 import hr.avrbanac.openglplayground.maths.Matrix4f;
 import hr.avrbanac.openglplayground.maths.Vector3f;
 import hr.avrbanac.openglplayground.models.RawModel;
-import hr.avrbanac.openglplayground.models.TexturedModel;
 import hr.avrbanac.openglplayground.shaders.TerrainShader;
 import hr.avrbanac.openglplayground.terrains.Terrain;
 import hr.avrbanac.openglplayground.textures.ModelTexture;

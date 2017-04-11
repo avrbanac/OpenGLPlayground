@@ -4,7 +4,7 @@ package hr.avrbanac.openglplayground.terrains;
 import static hr.avrbanac.openglplayground.Globals.TERRAIN_SIZE;
 import static hr.avrbanac.openglplayground.Globals.TERRAIN_VERTEX_COUNT;
 import hr.avrbanac.openglplayground.models.RawModel;
-import hr.avrbanac.openglplayground.renderengine.ModelLoader;
+import hr.avrbanac.openglplayground.loaders.ModelLoader;
 import hr.avrbanac.openglplayground.textures.ModelTexture;
 
 /**

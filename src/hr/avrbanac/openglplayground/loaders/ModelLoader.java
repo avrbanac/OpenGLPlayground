@@ -1,5 +1,5 @@
 
-package hr.avrbanac.openglplayground.renderengine;
+package hr.avrbanac.openglplayground.loaders;
 
 import hr.avrbanac.openglplayground.models.RawModel;
 import static hr.avrbanac.openglplayground.utils.BufferUtils.*;
@@ -14,7 +14,6 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
@@ -37,7 +36,7 @@ public class ModelLoader {
         storeDataInAttributeList(0, 3, positions);
         // in attribute 1 of VAO is VBO containing texture coordinates
         storeDataInAttributeList(1, 2, textureCoords);
-        // in attribute 2 of VAO store normals (for lightning)
+        // in attribute 2 of VAO store normals (for lighting)
         storeDataInAttributeList(2, 3, normals);
         
         unbindVAO();

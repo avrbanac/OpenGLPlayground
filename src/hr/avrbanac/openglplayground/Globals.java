@@ -29,5 +29,9 @@ public class Globals {
     
     public static final float TERRAIN_SIZE          = 800;
     public static final int TERRAIN_VERTEX_COUNT    = 128;
+    
+    public static final float SKY_RED               = 0.5f;
+    public static final float SKY_GREEN             = 0.5f;
+    public static final float SKY_BLUE              = 0.5f;
 }
 

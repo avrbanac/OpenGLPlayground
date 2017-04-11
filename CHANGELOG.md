@@ -8,30 +8,48 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## [Unreleased]
 - Something more advance
 
-## [1.0.4] - 2017-04-10 @avrbanac
+## [1.0.5] - 2017-04-11 @avrbanac - TRANSPARENCY
 
 ### Added
+- new OBJFileLoader that supports textured scenes (multitexturing)
+- transparency and visibility (fog)
+
+### Fixed
+- changes to renderers
+- changes to main method
+- ModelTexture is fixed for fake lighting tricks
+- changes to shaders
+
+## [1.0.4] - 2017-04-10 @avrbanac - TERRAIN
+
+### Added
+- new shaders
 - Terrain classes for terrain addition together with shaders and shader programs
 - MasterRenderer class to optimize rendering of multiple object of the same type
 
 ### Fixed
+- changes to shaders
 - moved public prepare method from EntityRenderer to 
 - renamed ModelRenderer to EntityRenderer
 
-## [1.0.3] - 2017-04-07 @avrbanac
+## [1.0.3] - 2017-04-07 @avrbanac - SPECULAR LIGHTING
 
 ### Added
 - matrix inverse function (GLSL 1.30 does not support inverse function for mat4)
-- specular lightning
+- specular lighting
 
-## [1.0.2] - 2017-04-06 @avrbanac
+### Fixed
+- changes to shaders
+
+## [1.0.2] - 2017-04-06 @avrbanac - DIFFUSAL LIGHTING
 
 ### Added
-- changes to existing classes and shaders to accommodate lightning
-- normal vector calculation for lightning
+- changes to existing classes and shaders to accommodate lighting
+- normal vector calculation for lighting
 - Light class represents light source
 
 ### Fixed
+- changes to shaders
 - movement of camera is now faster and enables moving in all directions
 
 ## [1.0.1] - 2017-04-06 @avrbanac

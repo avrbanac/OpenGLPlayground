@@ -5,7 +5,6 @@ import static hr.avrbanac.openglplayground.Globals.*;
 import hr.avrbanac.openglplayground.entities.Camera;
 import hr.avrbanac.openglplayground.utils.BufferUtils;
 import java.nio.FloatBuffer;
-import org.lwjgl.glfw.GLFW;
 
 /**
  * Custom matrix math class needed for matrix manipulation.

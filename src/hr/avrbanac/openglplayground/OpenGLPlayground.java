@@ -6,13 +6,12 @@ import hr.avrbanac.openglplayground.display.DisplayManager;
 import hr.avrbanac.openglplayground.entities.Camera;
 import hr.avrbanac.openglplayground.entities.Light;
 import hr.avrbanac.openglplayground.maths.Vector3f;
-import hr.avrbanac.openglplayground.renderengine.ModelLoader;
-import hr.avrbanac.openglplayground.renderengine.EntityRenderer;
-import hr.avrbanac.openglplayground.models.RawModel;
+import hr.avrbanac.openglplayground.loaders.ModelLoader;
+import hr.avrbanac.openglplayground.loaders.OBJFileLoader;
 import hr.avrbanac.openglplayground.models.TexturedModel;
-import hr.avrbanac.openglplayground.renderengine.MasterRenderer;
-import hr.avrbanac.openglplayground.renderengine.OBJLoader;
-import hr.avrbanac.openglplayground.shaders.StaticShader;
+import hr.avrbanac.openglplayground.renderers.MasterRenderer;
+import hr.avrbanac.openglplayground.loaders.OBJSimpleLoader;
+import hr.avrbanac.openglplayground.models.ModelData;
 import hr.avrbanac.openglplayground.terrains.Terrain;
 import hr.avrbanac.openglplayground.textures.ModelTexture;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ import org.lwjgl.glfw.GLFWErrorCallback;
  * Main class with application point of entry.
  * 
  * @author avrbanac
- * @version 1.0.3
+ * @version 1.0.5
  */
 public class OpenGLPlayground implements Runnable {
 
@@ -70,18 +69,69 @@ public class OpenGLPlayground implements Runnable {
         DisplayManager dm = new DisplayManager();
         dm.createDisplay();
         
-        ModelLoader loader      = new ModelLoader();
-        RawModel model          = OBJLoader.loadObjModel("tree", loader);
+        ModelLoader loader = new ModelLoader();
         
-        TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("tree")));
-        ModelTexture texture = staticModel.getTexture();
-        texture.setShineDamper(10);
-        texture.setReflectivity(1);
+        ModelData tree1Data = OBJFileLoader.loadOBJ("tree");
+        TexturedModel tree1 = new TexturedModel(
+                loader.loadToVAO(tree1Data.getVertices(), tree1Data.getTextureCoords(), tree1Data.getNormals(), tree1Data.getIndices()),
+                new ModelTexture(loader.loadTexture("tree")));
+        tree1.getTexture().setShineDamper(10);
+        ModelData tree2Data = OBJFileLoader.loadOBJ("lowPolyTree");
+        TexturedModel tree2 = new TexturedModel(
+                loader.loadToVAO(tree2Data.getVertices(), tree2Data.getTextureCoords(), tree2Data.getNormals(), tree2Data.getIndices()),
+                new ModelTexture(loader.loadTexture("lowPolyTree")));
+        tree2.getTexture().setShineDamper(10);
+        
+        
+//        TexturedModel tree = new TexturedModel(
+//                OBJSimpleLoader.loadObjModel("tree", loader),
+//                new ModelTexture(loader.loadTexture("tree")));
+//        tree.getTexture().setShineDamper(10);
+        TexturedModel grass = new TexturedModel(
+                OBJSimpleLoader.loadObjModel("grassModel", loader),
+                new ModelTexture(loader.loadTexture("grassTexture")));
+        grass.getTexture().setTransparency(true);
+        grass.getTexture().setShineDamper(10);
+        grass.getTexture().setUseFakeLighting(true);
+        TexturedModel flower = new TexturedModel(
+                OBJSimpleLoader.loadObjModel("grassModel", loader),
+                new ModelTexture(loader.loadTexture("flower")));
+        flower.getTexture().setTransparency(true);
+        flower.getTexture().setShineDamper(10);
+        flower.getTexture().setUseFakeLighting(true);
+        TexturedModel fern = new TexturedModel(
+                OBJSimpleLoader.loadObjModel("fern", loader),
+                new ModelTexture(loader.loadTexture("fern")));
+        fern.getTexture().setTransparency(true);
+        fern.getTexture().setShineDamper(10);
+
+//        ModelTexture texture = tree.getTexture();
+//        texture.setShineDamper(10);
+//        texture.setReflectivity(1);
         
         Random random = new Random();
-        List<Entity> entityList = new ArrayList<>();
-        for (int i = 0; i < 200; i++) {
-            entityList.add(new Entity(staticModel, new Vector3f(random.nextFloat() * 100 - 50, 0, random.nextFloat() * -100), 0, random.nextFloat() * 100,0, 1));
+        List<Entity> entities = new ArrayList<>();
+        for (int i = 0; i < 500; i++) {
+            entities.add(new Entity(
+                    tree1, 
+                    new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
+                    0, 0, 0, 3));
+            entities.add(new Entity(
+                    tree2, 
+                    new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
+                    0, random.nextFloat() * 360, 0, 0.5f));
+            entities.add(new Entity(
+                    grass, 
+                    new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
+                    0, random.nextFloat() * 360, 0, 1));
+            entities.add(new Entity(
+                    fern, 
+                    new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
+                    0, random.nextFloat() * 360, 0, 0.6f));
+            entities.add(new Entity(
+                    flower, 
+                    new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
+                    0, random.nextFloat() * 360, 0, 1f));
         }
         
         //Entity entity = new Entity(staticModel, new Vector3f(0, 0, -25), 0, 0, 0, 1);
@@ -99,13 +149,12 @@ public class OpenGLPlayground implements Runnable {
         while(isRunning) {
             //entity.increasePosition(0, 0, -0.1f);
             //entity.increaseRotation(0, 1, 0);
-            
             camera.move();
 
             renderer.processTerrain(terrain1);
             renderer.processTerrain(terrain2);
-            for (int i = 0; i < 200; i++) {
-                renderer.processEntity(entityList.get(i));
+            for (int i = 0; i < 2500; i++) {
+                renderer.processEntity(entities.get(i));
             }
             //renderer.processEntity(entity);
             

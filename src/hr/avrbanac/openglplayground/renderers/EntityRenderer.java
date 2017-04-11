@@ -1,5 +1,5 @@
 
-package hr.avrbanac.openglplayground.renderengine;
+package hr.avrbanac.openglplayground.renderers;
 
 import hr.avrbanac.openglplayground.entities.Entity;
 import hr.avrbanac.openglplayground.maths.Matrix4f;
@@ -18,7 +18,7 @@ import org.lwjgl.opengl.GL30;
  * Renders model from VAO.
  * 
  * @author avrbanac
- * @version 1.0.3
+ * @version 1.0.5
  */
 public class EntityRenderer {
     
@@ -57,12 +57,20 @@ public class EntityRenderer {
         GL20.glEnableVertexAttribArray(2);
         
         ModelTexture texture = model.getTexture();
+        
+        if(texture.isTransparency()) {
+            MasterRenderer.disableCulling();
+        }
+        
+        shader.loadFakeLightingVariable(texture.isUseFakeLighting());
         shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
+        
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getTextureID());
     }
     
     public void unbindTexturedModel() {
+        MasterRenderer.enableCulling();
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
         GL20.glDisableVertexAttribArray(2);
@@ -106,7 +114,7 @@ public class EntityRenderer {
         
         shader.loadTransformationMatrix(transformationMatrix);
         
-        // deal with specular lightning
+        // deal with specular lighting
         ModelTexture texture = tModel.getTexture();
         shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
         

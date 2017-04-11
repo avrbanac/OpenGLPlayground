@@ -5,6 +5,7 @@ import static hr.avrbanac.openglplayground.Globals.*;
 import hr.avrbanac.openglplayground.entities.Camera;
 import hr.avrbanac.openglplayground.entities.Light;
 import hr.avrbanac.openglplayground.maths.Matrix4f;
+import hr.avrbanac.openglplayground.maths.Vector3f;
 
 /**
  * This is just an implementation of abstract class {@ShaderProgram}
@@ -22,6 +23,8 @@ public class StaticShader extends ShaderProgram {
     private int locationShineDamper;
     private int locationReflectivity;
     private int locationViewMatrixInverse;
+    private int locationUseFakeLighting;
+    private int locationSkyColor;
     
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -43,6 +46,8 @@ public class StaticShader extends ShaderProgram {
         locationLightColor              = super.getUniformLocation("lightColor");
         locationShineDamper             = super.getUniformLocation("shineDamper");
         locationReflectivity            = super.getUniformLocation("reflectivity");
+        locationUseFakeLighting         = super.getUniformLocation("useFakeLighting");
+        locationSkyColor                = super.getUniformLocation("skyColor");
         
         //this can be done in vertex shader using inverse of viewMatrix if GLSL version supports it
         locationViewMatrixInverse       = super.getUniformLocation("viewMatrixInv");
@@ -64,15 +69,25 @@ public class StaticShader extends ShaderProgram {
         super.loadMatrix(locationProjectionMatrix, matrix);
     }
     
-    // diffusal lightning
+    // diffusal lighting
     public void loadLight(Light light) {
         super.loadVector(locationLightPosition, light.getPosition());
         super.loadVector(locationLightColor, light.getColor());
     }
     
-    // specular lightning
+    // specular lighting
     public void loadShineVariables(float shineDamper, float reflectivity) {
         super.loadFloat(locationShineDamper, shineDamper);
         super.loadFloat(locationReflectivity, reflectivity);
+    }
+    
+    // fake lighting
+    public void loadFakeLightingVariable(boolean useFakeLighting) {
+        super.loadBoolean(locationUseFakeLighting, useFakeLighting);
+    }
+    
+    // sky color (can be changed)
+    public void loadSkyColor(float r, float g, float b) {
+        super.loadVector(locationSkyColor, new Vector3f(r,g,b));
     }
 }

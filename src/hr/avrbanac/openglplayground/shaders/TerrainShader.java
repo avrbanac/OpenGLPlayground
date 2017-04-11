@@ -6,6 +6,7 @@ import static hr.avrbanac.openglplayground.Globals.TERRAIN_VERTEX_FILE;
 import hr.avrbanac.openglplayground.entities.Camera;
 import hr.avrbanac.openglplayground.entities.Light;
 import hr.avrbanac.openglplayground.maths.Matrix4f;
+import hr.avrbanac.openglplayground.maths.Vector3f;
 
 /**
  * Terrain shader program.
@@ -22,6 +23,7 @@ public class TerrainShader extends ShaderProgram {
     private int locationShineDamper;
     private int locationReflectivity;
     private int locationViewMatrixInverse;
+    private int locationSkyColor;
     
     public TerrainShader() {
         super(TERRAIN_VERTEX_FILE, TERRAIN_FRAGMENT_FILE);
@@ -43,6 +45,7 @@ public class TerrainShader extends ShaderProgram {
         locationLightColor              = super.getUniformLocation("lightColor");
         locationShineDamper             = super.getUniformLocation("shineDamper");
         locationReflectivity            = super.getUniformLocation("reflectivity");
+        locationSkyColor                = super.getUniformLocation("skyColor");
         
         //this can be done in vertex shader using inverse of viewMatrix if GLSL version supports it
         locationViewMatrixInverse       = super.getUniformLocation("viewMatrixInv");
@@ -64,15 +67,20 @@ public class TerrainShader extends ShaderProgram {
         super.loadMatrix(locationProjectionMatrix, matrix);
     }
     
-    // diffusal lightning
+    // diffusal lighting
     public void loadLight(Light light) {
         super.loadVector(locationLightPosition, light.getPosition());
         super.loadVector(locationLightColor, light.getColor());
     }
     
-    // specular lightning
+    // specular lighting
     public void loadShineVariables(float shineDamper, float reflectivity) {
         super.loadFloat(locationShineDamper, shineDamper);
         super.loadFloat(locationReflectivity, reflectivity);
+    }
+    
+    // sky color (for for etc...)
+    public void loadSkyColor(float r, float g, float b) {
+        super.loadVector(locationSkyColor, new Vector3f(r,g,b));
     }
 }
