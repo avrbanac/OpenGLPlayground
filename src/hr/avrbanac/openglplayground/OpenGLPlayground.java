@@ -5,6 +5,7 @@ import hr.avrbanac.openglplayground.entities.Entity;
 import hr.avrbanac.openglplayground.display.DisplayManager;
 import hr.avrbanac.openglplayground.entities.Camera;
 import hr.avrbanac.openglplayground.entities.Light;
+import hr.avrbanac.openglplayground.entities.Player;
 import hr.avrbanac.openglplayground.maths.Vector3f;
 import hr.avrbanac.openglplayground.loaders.ModelLoader;
 import hr.avrbanac.openglplayground.loaders.OBJFileLoader;
@@ -12,6 +13,7 @@ import hr.avrbanac.openglplayground.models.TexturedModel;
 import hr.avrbanac.openglplayground.renderers.MasterRenderer;
 import hr.avrbanac.openglplayground.loaders.OBJSimpleLoader;
 import hr.avrbanac.openglplayground.models.ModelData;
+import hr.avrbanac.openglplayground.models.RawModel;
 import hr.avrbanac.openglplayground.terrains.Terrain;
 import hr.avrbanac.openglplayground.textures.ModelTexture;
 import hr.avrbanac.openglplayground.textures.TerrainTexture;
@@ -95,17 +97,23 @@ public class OpenGLPlayground implements Runnable {
         grass.getTexture().setTransparency(true);
         grass.getTexture().setShineDamper(10);
         grass.getTexture().setUseFakeLighting(true);
+        
         TexturedModel flower = new TexturedModel(
                 OBJSimpleLoader.loadObjModel("grassModel", loader),
                 new ModelTexture(loader.loadTexture("flower")));
         flower.getTexture().setTransparency(true);
         flower.getTexture().setShineDamper(10);
         flower.getTexture().setUseFakeLighting(true);
+        
         TexturedModel fern = new TexturedModel(
                 OBJSimpleLoader.loadObjModel("fern", loader),
                 new ModelTexture(loader.loadTexture("fern")));
         fern.getTexture().setTransparency(true);
         fern.getTexture().setShineDamper(10);
+        
+        TexturedModel bunny = new TexturedModel(
+                OBJSimpleLoader.loadObjModel("bunny", loader),
+                new ModelTexture(loader.loadTexture("white")));
 
 //        ModelTexture texture = tree.getTexture();
 //        texture.setShineDamper(10);
@@ -140,7 +148,10 @@ public class OpenGLPlayground implements Runnable {
 
         Light light = new Light(new Vector3f(3000,2000, 2000), new Vector3f(1,1,1));
         Camera camera = new Camera(dm.getWindow());
-        camera.setPosition(new Vector3f(0,3,0));
+        camera.setPosition(new Vector3f(100,35,50));
+        camera.setPitch(10);
+        
+        Player player = new Player(dm.getWindow(),bunny, new Vector3f(100,0,-50), 0,0,0, 1);
 
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass"));
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("mud"));
@@ -159,7 +170,9 @@ public class OpenGLPlayground implements Runnable {
             //entity.increasePosition(0, 0, -0.1f);
             //entity.increaseRotation(0, 1, 0);
             camera.move();
-
+            player.move();
+            
+            renderer.processEntity(player);
             renderer.processTerrain(terrain1);
             renderer.processTerrain(terrain2);
             for (int i = 0; i < 2500; i++) {

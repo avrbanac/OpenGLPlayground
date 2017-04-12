@@ -3,7 +3,7 @@ package hr.avrbanac.openglplayground.loaders;
 
 import static hr.avrbanac.openglplayground.Globals.MODEL_EXTENSION;
 import static hr.avrbanac.openglplayground.Globals.MODEL_FOLDER;
-import hr.avrbanac.openglplayground.entities.Vertex;
+import hr.avrbanac.openglplayground.maths.Vertex;
 import hr.avrbanac.openglplayground.maths.Vector2f;
 import hr.avrbanac.openglplayground.maths.Vector3f;
 import hr.avrbanac.openglplayground.models.ModelData;

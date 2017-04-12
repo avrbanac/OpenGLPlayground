@@ -13,13 +13,19 @@ import java.nio.IntBuffer;
  * Custom manager for OpenGL display.
  *
  * @author avrbanac
- * @version 1.0.0
+ * @version 1.0.6
  */
 public class DisplayManager {
 
     private long windowID = 0L;
     private int width = 0;
     private int height = 0;
+    
+    // time at the end of the last frame (in milliseconds)
+    private static long lastFrameTime;
+    
+    // time taken to render the previous frame (in seconds)
+    private static float delta;
 
     public void createDisplay() {
         // initialize display
@@ -50,6 +56,7 @@ public class DisplayManager {
         glfwGetWindowSize(windowID, w, h);
         width = w.get(0);
         height = h.get(0);
+        lastFrameTime = getCurrentTime();
         
     }
     
@@ -68,6 +75,13 @@ public class DisplayManager {
     public void updateDisplay() {
         // Polls for any window events such as the window closing etc.
         glfwPollEvents();
+        long currentFrameTime = getCurrentTime();
+        delta = (currentFrameTime - lastFrameTime) / 1000f;
+        lastFrameTime = currentFrameTime;
+    }
+    
+    public static float getFrameTimeSeconds() {
+        return delta;
     }
 
     public void closeDisplay() {
@@ -85,6 +99,10 @@ public class DisplayManager {
 
     public int getHeight() {
         return height;
+    }
+    
+    private static long getCurrentTime() {
+        return Math.round(glfwGetTime() * TO_MILLISECONDS);
     }
 
 }

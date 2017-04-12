@@ -33,5 +33,13 @@ public class Globals {
     public static final float SKY_RED               = 0.5f;
     public static final float SKY_GREEN             = 0.5f;
     public static final float SKY_BLUE              = 0.5f;
+    
+    public static final double TO_MILLISECONDS      = 1000;
+    
+    public static final float RUN_SPEED             = 20;
+    public static final float TURN_SPEED            = 160;
+    public static final float GRAVITY               = -50;
+    public static final float JUMP_POWER            = 30;
+    
 }
 

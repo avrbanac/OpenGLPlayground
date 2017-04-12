@@ -11,10 +11,14 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## [1.0.6] - 2017-04-12 @avrbanac - MULTITEXTURED TERRAIN
 
 ### Added
+- Time measurement in DisplayManager (needed for moving player around)
+- Player entity with basic physics (defined in Globals)
 - TerrainTexture
 - TerrainTexturePack
 
 ### Fixed
+- Camera movement
+- moved Vertex class from entities to math package
 - res folder split to texture subfolder and model subfolder
 - main program
 - Terrain
