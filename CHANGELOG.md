@@ -8,6 +8,20 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## [Unreleased]
 - Something more advance
 
+## [1.0.6] - 2017-04-12 @avrbanac - MULTITEXTURED TERRAIN
+
+### Added
+- TerrainTexture
+- TerrainTexturePack
+
+### Fixed
+- res folder split to texture subfolder and model subfolder
+- main program
+- Terrain
+- TerrainShader
+- ShaderProgram
+- terrain shaders
+
 ## [1.0.5] - 2017-04-11 @avrbanac - TRANSPARENCY
 
 ### Added

@@ -7,7 +7,7 @@ import hr.avrbanac.openglplayground.maths.Vector3f;
  * Vertex class supports new OBJFileLoader.
  * 
  * @author avrbanac
- * @version 1.0.0
+ * @version 1.0.5
  */
 public class Vertex {
      

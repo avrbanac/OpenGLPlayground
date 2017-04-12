@@ -12,7 +12,7 @@ import hr.avrbanac.openglplayground.maths.Vector3f;
  * Terrain shader program.
  * 
  * @author avrbanac
- * @version 1.0.0
+ * @version 1.0.6
  */
 public class TerrainShader extends ShaderProgram {
     private int locationTransformationMatrix;
@@ -24,6 +24,11 @@ public class TerrainShader extends ShaderProgram {
     private int locationReflectivity;
     private int locationViewMatrixInverse;
     private int locationSkyColor;
+    private int locationbackgroundTexture;
+    private int locationRTexture;
+    private int locationGTexture;
+    private int locationBTexture;
+    private int locationBlendMap;
     
     public TerrainShader() {
         super(TERRAIN_VERTEX_FILE, TERRAIN_FRAGMENT_FILE);
@@ -46,6 +51,11 @@ public class TerrainShader extends ShaderProgram {
         locationShineDamper             = super.getUniformLocation("shineDamper");
         locationReflectivity            = super.getUniformLocation("reflectivity");
         locationSkyColor                = super.getUniformLocation("skyColor");
+        locationbackgroundTexture       = super.getUniformLocation("backgroundTexture");
+        locationRTexture                = super.getUniformLocation("rTexture");
+        locationGTexture                = super.getUniformLocation("gTexture");
+        locationBTexture                = super.getUniformLocation("bTexture");
+        locationBlendMap                = super.getUniformLocation("blendMap");
         
         //this can be done in vertex shader using inverse of viewMatrix if GLSL version supports it
         locationViewMatrixInverse       = super.getUniformLocation("viewMatrixInv");
@@ -82,5 +92,14 @@ public class TerrainShader extends ShaderProgram {
     // sky color (for for etc...)
     public void loadSkyColor(float r, float g, float b) {
         super.loadVector(locationSkyColor, new Vector3f(r,g,b));
+    }
+    
+    // connect textures
+    public void connectTextureUnits() {
+        super.loadInt(locationbackgroundTexture, 0);
+        super.loadInt(locationRTexture, 1);
+        super.loadInt(locationGTexture, 2);
+        super.loadInt(locationBTexture, 3);
+        super.loadInt(locationBlendMap, 4);
     }
 }

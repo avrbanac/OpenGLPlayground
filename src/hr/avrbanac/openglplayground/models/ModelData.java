@@ -5,7 +5,7 @@ package hr.avrbanac.openglplayground.models;
  * Model class to support new OBJFileLoader.
  * 
  * @author avrbanac
- * @version 1.0.0
+ * @version 1.0.5
  */
 public class ModelData {
  

@@ -6,21 +6,25 @@ import static hr.avrbanac.openglplayground.Globals.TERRAIN_VERTEX_COUNT;
 import hr.avrbanac.openglplayground.models.RawModel;
 import hr.avrbanac.openglplayground.loaders.ModelLoader;
 import hr.avrbanac.openglplayground.textures.ModelTexture;
+import hr.avrbanac.openglplayground.textures.TerrainTexture;
+import hr.avrbanac.openglplayground.textures.TerrainTexturePack;
 
 /**
  *
  * @author avrbanac
- * @version 1.0.0
+ * @version 1.0.6
  */
 public class Terrain {
     private float x;
     private float z;
     
     private RawModel model;
-    private ModelTexture texture;
+    private TerrainTexturePack texturePack;
+    private TerrainTexture blendMap;
     
-    public Terrain(int gridX, int gridZ, ModelLoader loader, ModelTexture texture) {
-        this.texture = texture;
+    public Terrain(int gridX, int gridZ, ModelLoader loader, TerrainTexturePack texturePack, TerrainTexture blendMap) {
+        this.texturePack    = texturePack;
+        this.blendMap       = blendMap;
         this.x = gridX * TERRAIN_SIZE;
         this.z = gridZ * TERRAIN_SIZE;
         
@@ -39,8 +43,12 @@ public class Terrain {
         return model;
     }
 
-    public ModelTexture getTexture() {
-        return texture;
+    public TerrainTexturePack getTexturePack() {
+        return texturePack;
+    }
+
+    public TerrainTexture getBlendMap() {
+        return blendMap;
     }
     
     private RawModel generateTerrain(ModelLoader loader){

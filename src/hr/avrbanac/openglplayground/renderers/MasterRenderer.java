@@ -24,7 +24,7 @@ import org.lwjgl.opengl.GL11;
  * optimization will be used while rendering terrain.
  * 
  * @author avrbanac
- * @version 1.0.0
+ * @version 1.0.4
  */
 public class MasterRenderer {
     private StaticShader shader;

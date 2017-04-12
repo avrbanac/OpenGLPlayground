@@ -19,7 +19,7 @@ import java.util.List;
  * New OBJ loader class. This class supports texture scenes (multitexturing).
  * 
  * @author avrbanac
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class OBJFileLoader {
 

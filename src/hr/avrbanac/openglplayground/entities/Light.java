@@ -7,7 +7,7 @@ import hr.avrbanac.openglplayground.maths.Vector3f;
  * Light entity class.
  * 
  * @author avrbanac
- * @version 1.0.0
+ * @version 1.0.2
  */
 public class Light {
     private Vector3f position;

@@ -14,7 +14,7 @@ import org.lwjgl.opengl.GL20;
  * Abstract shader program class.
  * 
  * @author avrbanac
- * @version 1.0.0
+ * @version 1.0.6
  */
 public abstract class ShaderProgram {
     
@@ -70,6 +70,10 @@ public abstract class ShaderProgram {
     
     protected void loadBoolean(int location, boolean value) {
         GL20.glUniform1f(location, (value) ? 1 : 0);
+    }
+    
+    protected void loadInt(int location, int value) {
+        GL20.glUniform1i(location, value);
     }
     
     protected void loadFloat(int location, float value) {

@@ -14,6 +14,8 @@ import hr.avrbanac.openglplayground.loaders.OBJSimpleLoader;
 import hr.avrbanac.openglplayground.models.ModelData;
 import hr.avrbanac.openglplayground.terrains.Terrain;
 import hr.avrbanac.openglplayground.textures.ModelTexture;
+import hr.avrbanac.openglplayground.textures.TerrainTexture;
+import hr.avrbanac.openglplayground.textures.TerrainTexturePack;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,7 +27,7 @@ import org.lwjgl.glfw.GLFWErrorCallback;
  * Main class with application point of entry.
  * 
  * @author avrbanac
- * @version 1.0.5
+ * @version 1.0.6
  */
 public class OpenGLPlayground implements Runnable {
 
@@ -140,9 +142,16 @@ public class OpenGLPlayground implements Runnable {
         Camera camera = new Camera(dm.getWindow());
         camera.setPosition(new Vector3f(0,3,0));
 
-        Terrain terrain1 = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("grass")));
-        Terrain terrain2 = new Terrain(-1, -1, loader, new ModelTexture(loader.loadTexture("grass")));
-
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("mud"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("grassFlowers"));
+        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("path"));
+        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
+        
+        TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
+        
+        Terrain terrain1 = new Terrain(0, -1, loader, texturePack, blendMap);
+        Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap);
         
         MasterRenderer renderer = new MasterRenderer(dm.getWidth(), dm.getHeight(), Globals.FOV);
         
