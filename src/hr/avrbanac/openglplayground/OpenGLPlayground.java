@@ -29,7 +29,7 @@ import org.lwjgl.glfw.GLFWErrorCallback;
  * Main class with application point of entry.
  * 
  * @author avrbanac
- * @version 1.0.6
+ * @version 1.0.7
  */
 public class OpenGLPlayground implements Runnable {
 
@@ -147,11 +147,10 @@ public class OpenGLPlayground implements Runnable {
         //Entity entity = new Entity(staticModel, new Vector3f(0, 0, -25), 0, 0, 0, 1);
 
         Light light = new Light(new Vector3f(3000,2000, 2000), new Vector3f(1,1,1));
-        Camera camera = new Camera(dm.getWindow());
-        camera.setPosition(new Vector3f(100,35,50));
-        camera.setPitch(10);
         
-        Player player = new Player(dm.getWindow(),bunny, new Vector3f(100,0,-50), 0,0,0, 1);
+        Player player = new Player(bunny, new Vector3f(100,0,-100), 0, 180, 0, 1);
+        
+        Camera camera = new Camera(player);
 
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass"));
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("mud"));

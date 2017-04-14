@@ -7,28 +7,33 @@ package hr.avrbanac.openglplayground.entities;
 
 import static hr.avrbanac.openglplayground.Globals.*;
 import hr.avrbanac.openglplayground.display.DisplayManager;
+import hr.avrbanac.openglplayground.inputs.KeyboardHandler;
+import hr.avrbanac.openglplayground.inputs.MouseButtonHandler;
+import hr.avrbanac.openglplayground.inputs.MousePosHandler;
+import hr.avrbanac.openglplayground.inputs.MouseScrollHandler;
 import hr.avrbanac.openglplayground.maths.Vector3f;
 import hr.avrbanac.openglplayground.models.TexturedModel;
 import static org.lwjgl.glfw.GLFW.*;
 
 /**
- *
+ * Player entity.
+ * 
  * @author avrbanac
+ * @version 1.0.7
  */
 public class Player extends Entity {
     
     // for now
     private static final float TERRAIN_HEIGHT = 0;
     
-    private long parentWindowID;
     private float currentSpeed = 0;
     private float currentTurnSpeed = 0;
     private float upwardSpeed = 0;
     private boolean isInTheAir = false;
+    private long keyCount = 0;
 
-    public Player(long parentWindowID, TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         super(model, position, rotX, rotY, rotZ, scale);
-        this.parentWindowID = parentWindowID;
     }
     
     public void move() {
@@ -61,25 +66,25 @@ public class Player extends Entity {
     
     private void checkInputs() {
         // moving forward / backward
-        if(glfwGetKey(parentWindowID, GLFW_KEY_W) == GLFW_PRESS) {
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_W)) {
             currentSpeed = RUN_SPEED;
-        } else if(glfwGetKey(parentWindowID, GLFW_KEY_S) == GLFW_PRESS) {
+        } else if(KeyboardHandler.isKeyDown(GLFW_KEY_S)) {
             currentSpeed = -RUN_SPEED;
         } else {
             currentSpeed = 0;
         }
         
         // turning left / right
-        if(glfwGetKey(parentWindowID, GLFW_KEY_A) == GLFW_PRESS) {
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_A)) {
             currentTurnSpeed = TURN_SPEED;
-        } else if(glfwGetKey(parentWindowID, GLFW_KEY_D) == GLFW_PRESS) {
+        } else if(KeyboardHandler.isKeyDown(GLFW_KEY_D)) {
             currentTurnSpeed = -TURN_SPEED;
         } else {
             currentTurnSpeed = 0;
         }
         
         // jumping
-        if(glfwGetKey(parentWindowID, GLFW_KEY_SPACE) == GLFW_PRESS) {
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_SPACE)) {
             jump();
         }        
     }

@@ -5,7 +5,7 @@ package hr.avrbanac.openglplayground;
  * Single place to hold all graphic globals.
  * 
  * @author avrbanac
- * @version 1.0.6
+ * @version 1.0.7
  */
 public class Globals {
     public static final int DISPLAY_WIDTH           = 1280;
@@ -41,5 +41,15 @@ public class Globals {
     public static final float GRAVITY               = -50;
     public static final float JUMP_POWER            = 30;
     
+    public static final float MOUSE_SENS_SCROLL     = 1f;
+    public static final float MOUSE_SENS_MOVE_X     = 0.3f;
+    public static final float MOUSE_SENS_MOVE_Y     = 0.1f;
+    
+    public static final float CAMERA_MIN_PITCH      = 5f;
+    public static final float CAMERA_MAX_PITCH      = 90f;
+    public static final float CAMERA_MIN_DIST       = 25f;
+    public static final float CAMERA_MAX_DIST       = 100f;
+    
+    public static final float MIPMAPPING_FACTOR     = -0.4f;
 }
 

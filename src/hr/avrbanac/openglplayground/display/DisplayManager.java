@@ -6,14 +6,22 @@ import static org.lwjgl.system.MemoryUtil.*;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.opengl.GL;
 import static hr.avrbanac.openglplayground.Globals.*;
+import hr.avrbanac.openglplayground.inputs.KeyboardHandler;
+import hr.avrbanac.openglplayground.inputs.MouseButtonHandler;
+import hr.avrbanac.openglplayground.inputs.MousePosHandler;
+import hr.avrbanac.openglplayground.inputs.MouseScrollHandler;
 import hr.avrbanac.openglplayground.utils.BufferUtils;
 import java.nio.IntBuffer;
+import org.lwjgl.glfw.GLFWCursorPosCallback;
+import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjgl.glfw.GLFWMouseButtonCallback;
+import org.lwjgl.glfw.GLFWScrollCallback;
 
 /**
  * Custom manager for OpenGL display.
  *
  * @author avrbanac
- * @version 1.0.6
+ * @version 1.0.7
  */
 public class DisplayManager {
 
@@ -26,7 +34,13 @@ public class DisplayManager {
     
     // time taken to render the previous frame (in seconds)
     private static float delta;
-
+    
+    // input callbacks
+    private GLFWKeyCallback keyCallback;
+    private GLFWCursorPosCallback mousePosCallback;
+    private GLFWMouseButtonCallback mouseButtonCallback;
+    private GLFWScrollCallback mouseScrollCallback;
+    
     public void createDisplay() {
         // initialize display
         if (!glfwInit()) {
@@ -56,6 +70,8 @@ public class DisplayManager {
         glfwGetWindowSize(windowID, w, h);
         width = w.get(0);
         height = h.get(0);
+        createInputCallbacks();
+        
         lastFrameTime = getCurrentTime();
         
     }
@@ -86,6 +102,7 @@ public class DisplayManager {
 
     public void closeDisplay() {
         glfwDestroyWindow(windowID);
+        destroyInputCallbacks();
         glfwTerminate();
     }
 
@@ -102,7 +119,21 @@ public class DisplayManager {
     }
     
     private static long getCurrentTime() {
-        return Math.round(glfwGetTime() * TO_MILLISECONDS);
+        return (long)(glfwGetTime() * TO_MILLISECONDS);
+    }
+    
+    private void createInputCallbacks() {
+        glfwSetKeyCallback(windowID, keyCallback = new KeyboardHandler());
+        glfwSetCursorPosCallback(windowID, mousePosCallback = new MousePosHandler());
+        glfwSetMouseButtonCallback(windowID, mouseButtonCallback = new MouseButtonHandler());
+        glfwSetScrollCallback(windowID, mouseScrollCallback = new MouseScrollHandler());
+    }
+    
+    private void destroyInputCallbacks() {
+        keyCallback.free();
+        mousePosCallback.free();
+        mouseButtonCallback.free();
+        mouseScrollCallback.free();
     }
 
 }

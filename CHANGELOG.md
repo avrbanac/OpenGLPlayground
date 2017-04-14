@@ -8,6 +8,20 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## [Unreleased]
 - Something more advance
 
+## [1.0.7] - 2017-04-14 @avrbanac - INPUTS AS CALLBACKS & MIPMAPPING
+
+### Added
+- mipmapping
+- KeyboardHandler
+- MouseButtonHandler
+- MousePosHandler
+- MouseScrollHandler
+
+### Fixed
+- camera movement now reflects 3rd person view
+- use of the input callbacks allows all entities to be constructed without parent window id
+- switched from glfwGetKey function to callback use
+
 ## [1.0.6] - 2017-04-12 @avrbanac - MULTITEXTURED TERRAIN
 
 ### Added
