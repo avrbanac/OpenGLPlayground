@@ -18,7 +18,7 @@ import org.lwjgl.opengl.GL30;
  * Renders model from VAO.
  * 
  * @author avrbanac
- * @version 1.0.5
+ * @version 1.0.8
  */
 public class EntityRenderer {
     
@@ -58,6 +58,9 @@ public class EntityRenderer {
         
         ModelTexture texture = model.getTexture();
         
+        // needed for texture atlases
+        shader.loadNumberOfRows(texture.getNumberOfRows());
+        
         if(texture.isTransparency()) {
             MasterRenderer.disableCulling();
         }
@@ -85,6 +88,9 @@ public class EntityRenderer {
                 entity.getRotZ(),
                 entity.getScale());
         shader.loadTransformationMatrix(transformationMatrix);
+        
+        // needed for texture atlases
+        shader.loadOffset(entity.getTextureXOffset(), entity.getTextureYOffset());
     }
     
     /**

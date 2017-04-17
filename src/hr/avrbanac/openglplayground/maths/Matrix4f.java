@@ -10,7 +10,7 @@ import java.nio.FloatBuffer;
  * Custom matrix math class needed for matrix manipulation.
  * 
  * @author avrbanac
- * @version 1.0.3
+ * @version 1.0.8
  */
 public class Matrix4f {
     
@@ -155,6 +155,13 @@ public class Matrix4f {
         }
         
         return result;
+    }
+    
+    public static Matrix4f transformation(Vector2f translation, Vector2f scale) {
+        Matrix4f translationMatrix  = translate(new Vector3f(translation.u, translation.v, 0f));
+        Matrix4f scaleMatrix        = scale(new Vector3f(scale.u, scale.v, 0f));
+        
+        return translationMatrix.multiply(scaleMatrix);
     }
     
     public static Matrix4f transformation(Vector3f translation, float rx, float ry, float rz, float scale) {

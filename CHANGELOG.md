@@ -8,6 +8,22 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## [Unreleased]
 - Something more advance
 
+## [1.0.9] - 2017-04-15 @avrbanac - GUI
+
+### Added
+- GUI vertex and fragment shaders
+- GuiShader
+- GuiRenderer 
+- GuiTexture
+
+## [1.0.8] - 2017-04-15 @avrbanac - TERRAIN HEIGHT & COLLISION DETECTION, TEXTURE ATLASES
+
+### Fixed
+- added some new fields to ModelTexture and Entity classes (for texture atlases)
+- changed ModelTexture to allow use of texture atlases
+- changing from hardcoded terrain hight 0 (in Player class) to calculated one
+- Terrain now calculates height
+
 ## [1.0.7] - 2017-04-14 @avrbanac - INPUTS AS CALLBACKS & MIPMAPPING
 
 ### Added

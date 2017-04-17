@@ -6,7 +6,6 @@ import hr.avrbanac.openglplayground.maths.Vector3f;
 import hr.avrbanac.openglplayground.models.RawModel;
 import hr.avrbanac.openglplayground.shaders.TerrainShader;
 import hr.avrbanac.openglplayground.terrains.Terrain;
-import hr.avrbanac.openglplayground.textures.ModelTexture;
 import hr.avrbanac.openglplayground.textures.TerrainTexturePack;
 import java.util.List;
 import org.lwjgl.opengl.GL11;
@@ -18,7 +17,7 @@ import org.lwjgl.opengl.GL30;
  * Terrain renderer class.
  * 
  * @author avrbanac
- * @version 1.0.6
+ * @version 1.0.8
  */
 public class TerrainRenderer {
     private TerrainShader shader;
@@ -48,7 +47,7 @@ public class TerrainRenderer {
         GL20.glEnableVertexAttribArray(2);
         
         bindTextures(terrain);
-        shader.loadShineVariables(1, 0);
+        shader.loadShineVariables(10, 0);
     }
     
     public void bindTextures(Terrain terrain) {

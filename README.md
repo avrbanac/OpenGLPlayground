@@ -29,7 +29,7 @@ It is important to use a version that enables the use of uniform variables in sh
 
 ~Application is currently under construction. Target version for something that works is 1.0.0.~
 
-Application is currently in version 1.0.7.
+Application is currently in version 1.0.8.
 
 LWJGL library used for this project is in version 3.
 
@@ -47,6 +47,9 @@ LWJGL library used for this project is in version 3.
 * fog
 * 3rd person view
 * mipmapping
+* terrain height (with terrain collision detection)
+* texture atlases
+* GUI rendering
 
 
 ## Copyright

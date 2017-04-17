@@ -8,16 +8,33 @@ import hr.avrbanac.openglplayground.models.TexturedModel;
  * Entity class will provide textured instance of the model with it's unique position, rotation, size, etc...
  * 
  * @author avrbanac
- * @version 1.0.0
+ * @version 1.0.8
  */
 public class Entity {
     private TexturedModel model;
     private Vector3f position;
     private float rotX, rotY, rotZ;
     private float scale;
+    
+    // texture intex in texture atlases file (left to right, top to bottom)
+    private int textureIndex;
 
-    public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+    public Entity(
+            TexturedModel model,
+            Vector3f position,
+            float rotX, float rotY, float rotZ,
+            float scale) {
+        
+        this(model, 0, position, rotX, rotY, rotZ, scale);
+    }
+    public Entity(
+            TexturedModel model,
+            int textureIndex,
+            Vector3f position,
+            float rotX, float rotY, float rotZ,
+            float scale) {
         this.model = model;
+        this.textureIndex = textureIndex;
         this.position = position;
         this.rotX = rotX;
         this.rotY = rotY;
@@ -83,5 +100,15 @@ public class Entity {
         this.rotX += drx;
         this.rotY += dry;
         this.rotZ += drz;
+    }
+    
+    public float getTextureXOffset() {
+        int column = textureIndex % model.getTexture().getNumberOfRows();
+        return (float)column / (float)model.getTexture().getNumberOfRows();
+    }
+    
+    public float getTextureYOffset() {
+        int row = textureIndex / model.getTexture().getNumberOfRows();
+        return (float)row / (float)model.getTexture().getNumberOfRows();
     }
 }

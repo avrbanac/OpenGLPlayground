@@ -8,18 +8,16 @@ package hr.avrbanac.openglplayground.entities;
 import static hr.avrbanac.openglplayground.Globals.*;
 import hr.avrbanac.openglplayground.display.DisplayManager;
 import hr.avrbanac.openglplayground.inputs.KeyboardHandler;
-import hr.avrbanac.openglplayground.inputs.MouseButtonHandler;
-import hr.avrbanac.openglplayground.inputs.MousePosHandler;
-import hr.avrbanac.openglplayground.inputs.MouseScrollHandler;
 import hr.avrbanac.openglplayground.maths.Vector3f;
 import hr.avrbanac.openglplayground.models.TexturedModel;
+import hr.avrbanac.openglplayground.terrains.Terrain;
 import static org.lwjgl.glfw.GLFW.*;
 
 /**
  * Player entity.
  * 
  * @author avrbanac
- * @version 1.0.7
+ * @version 1.0.8
  */
 public class Player extends Entity {
     
@@ -36,7 +34,7 @@ public class Player extends Entity {
         super(model, position, rotX, rotY, rotZ, scale);
     }
     
-    public void move() {
+    public void move(Terrain terrain) {
         checkInputs();
         float frameTimeSeconds = DisplayManager.getFrameTimeSeconds();
                 
@@ -49,11 +47,15 @@ public class Player extends Entity {
         
         upwardSpeed += GRAVITY * frameTimeSeconds;
         super.increasePosition(0, upwardSpeed * frameTimeSeconds, 0);
+        
+        // calculated terrein height
+        float terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
+        
         // stop pulling through terrain
-        if(super.getPosition().y < TERRAIN_HEIGHT) {
+        if(super.getPosition().y < terrainHeight) {
             upwardSpeed = 0;
             isInTheAir = false;
-            super.getPosition().y = TERRAIN_HEIGHT;
+            super.getPosition().y = terrainHeight;
         }
     }
     

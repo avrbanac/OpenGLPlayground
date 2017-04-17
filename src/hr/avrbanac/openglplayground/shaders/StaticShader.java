@@ -5,13 +5,14 @@ import static hr.avrbanac.openglplayground.Globals.*;
 import hr.avrbanac.openglplayground.entities.Camera;
 import hr.avrbanac.openglplayground.entities.Light;
 import hr.avrbanac.openglplayground.maths.Matrix4f;
+import hr.avrbanac.openglplayground.maths.Vector2f;
 import hr.avrbanac.openglplayground.maths.Vector3f;
 
 /**
  * This is just an implementation of abstract class {@ShaderProgram}
  * 
  * @author avrbanac
- * @version 1.0.3
+ * @version 1.0.8
  */
 public class StaticShader extends ShaderProgram {
 
@@ -25,6 +26,8 @@ public class StaticShader extends ShaderProgram {
     private int locationViewMatrixInverse;
     private int locationUseFakeLighting;
     private int locationSkyColor;
+    private int locationNumberOfRows;
+    private int locationOffset;
     
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -48,6 +51,8 @@ public class StaticShader extends ShaderProgram {
         locationReflectivity            = super.getUniformLocation("reflectivity");
         locationUseFakeLighting         = super.getUniformLocation("useFakeLighting");
         locationSkyColor                = super.getUniformLocation("skyColor");
+        locationNumberOfRows            = super.getUniformLocation("numberOfRows");
+        locationOffset                  = super.getUniformLocation("offset");
         
         //this can be done in vertex shader using inverse of viewMatrix if GLSL version supports it
         locationViewMatrixInverse       = super.getUniformLocation("viewMatrixInv");
@@ -71,8 +76,8 @@ public class StaticShader extends ShaderProgram {
     
     // diffusal lighting
     public void loadLight(Light light) {
-        super.loadVector(locationLightPosition, light.getPosition());
-        super.loadVector(locationLightColor, light.getColor());
+        super.load3DVector(locationLightPosition, light.getPosition());
+        super.load3DVector(locationLightColor, light.getColor());
     }
     
     // specular lighting
@@ -88,6 +93,15 @@ public class StaticShader extends ShaderProgram {
     
     // sky color (can be changed)
     public void loadSkyColor(float r, float g, float b) {
-        super.loadVector(locationSkyColor, new Vector3f(r,g,b));
+        super.load3DVector(locationSkyColor, new Vector3f(r,g,b));
+    }
+    
+    // variables needed for texture atlases
+    public void loadNumberOfRows(int numberOfRows) {
+        super.loadFloat(locationNumberOfRows, numberOfRows);
+    }
+    // variables needed for texture atlases
+    public void loadOffset(float x, float y) {
+        super.load2DVector(locationOffset, new Vector2f(x,y));
     }
 }

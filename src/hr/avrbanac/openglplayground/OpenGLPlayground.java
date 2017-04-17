@@ -6,14 +6,16 @@ import hr.avrbanac.openglplayground.display.DisplayManager;
 import hr.avrbanac.openglplayground.entities.Camera;
 import hr.avrbanac.openglplayground.entities.Light;
 import hr.avrbanac.openglplayground.entities.Player;
+import hr.avrbanac.openglplayground.textures.GuiTexture;
+import hr.avrbanac.openglplayground.renderers.GuiRenderer;
 import hr.avrbanac.openglplayground.maths.Vector3f;
 import hr.avrbanac.openglplayground.loaders.ModelLoader;
 import hr.avrbanac.openglplayground.loaders.OBJFileLoader;
 import hr.avrbanac.openglplayground.models.TexturedModel;
 import hr.avrbanac.openglplayground.renderers.MasterRenderer;
 import hr.avrbanac.openglplayground.loaders.OBJSimpleLoader;
+import hr.avrbanac.openglplayground.maths.Vector2f;
 import hr.avrbanac.openglplayground.models.ModelData;
-import hr.avrbanac.openglplayground.models.RawModel;
 import hr.avrbanac.openglplayground.terrains.Terrain;
 import hr.avrbanac.openglplayground.textures.ModelTexture;
 import hr.avrbanac.openglplayground.textures.TerrainTexture;
@@ -29,7 +31,7 @@ import org.lwjgl.glfw.GLFWErrorCallback;
  * Main class with application point of entry.
  * 
  * @author avrbanac
- * @version 1.0.7
+ * @version 1.0.8
  */
 public class OpenGLPlayground implements Runnable {
 
@@ -107,9 +109,11 @@ public class OpenGLPlayground implements Runnable {
         
         TexturedModel fern = new TexturedModel(
                 OBJSimpleLoader.loadObjModel("fern", loader),
-                new ModelTexture(loader.loadTexture("fern")));
+                new ModelTexture(loader.loadTexture("fernAtlas")));
         fern.getTexture().setTransparency(true);
         fern.getTexture().setShineDamper(10);
+        // texture atlas 2x2
+        fern.getTexture().setNumberOfRows(2);
         
         TexturedModel bunny = new TexturedModel(
                 OBJSimpleLoader.loadObjModel("bunny", loader),
@@ -119,36 +123,11 @@ public class OpenGLPlayground implements Runnable {
 //        texture.setShineDamper(10);
 //        texture.setReflectivity(1);
         
-        Random random = new Random();
-        List<Entity> entities = new ArrayList<>();
-        for (int i = 0; i < 500; i++) {
-            entities.add(new Entity(
-                    tree1, 
-                    new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
-                    0, 0, 0, 3));
-            entities.add(new Entity(
-                    tree2, 
-                    new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
-                    0, random.nextFloat() * 360, 0, 0.5f));
-            entities.add(new Entity(
-                    grass, 
-                    new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
-                    0, random.nextFloat() * 360, 0, 1));
-            entities.add(new Entity(
-                    fern, 
-                    new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
-                    0, random.nextFloat() * 360, 0, 0.6f));
-            entities.add(new Entity(
-                    flower, 
-                    new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600),
-                    0, random.nextFloat() * 360, 0, 1f));
-        }
-        
         //Entity entity = new Entity(staticModel, new Vector3f(0, 0, -25), 0, 0, 0, 1);
 
         Light light = new Light(new Vector3f(3000,2000, 2000), new Vector3f(1,1,1));
         
-        Player player = new Player(bunny, new Vector3f(100,0,-100), 0, 180, 0, 1);
+        Player player = new Player(bunny, new Vector3f(200,0,-200), 0, 180, 0, 0.3f);
         
         Camera camera = new Camera(player);
 
@@ -160,26 +139,64 @@ public class OpenGLPlayground implements Runnable {
         
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
         
-        Terrain terrain1 = new Terrain(0, -1, loader, texturePack, blendMap);
-        Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap);
+        Terrain terrain1 = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
+        //Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap, "heightmap");
+        
+        Random random = new Random();
+        List<Entity> entities = new ArrayList<>();
+        for (int i = 0; i < 500; i++) {
+            entities.add(new Entity(
+                    tree1, 
+                    randomPos3f(random, terrain1),
+                    0, 0, 0, 3));
+            entities.add(new Entity(
+                    tree2, 
+                    randomPos3f(random, terrain1),
+                    0, random.nextFloat() * 360, 0, 0.5f));
+            entities.add(new Entity(
+                    grass, 
+                    randomPos3f(random, terrain1),
+                    0, random.nextFloat() * 360, 0, 1));
+            entities.add(new Entity(
+                    fern,
+                    random.nextInt(4),
+                    randomPos3f(random, terrain1),
+                    0, random.nextFloat() * 360, 0, 0.6f));
+            entities.add(new Entity(
+                    flower, 
+                    randomPos3f(random, terrain1),
+                    0, random.nextFloat() * 360, 0, 1f));
+        }
         
         MasterRenderer renderer = new MasterRenderer(dm.getWidth(), dm.getHeight(), Globals.FOV);
+        
+        List<GuiTexture> guis = new ArrayList<>();
+        GuiTexture gui = new GuiTexture(
+                loader.loadTexture("carrot"),
+                new Vector2f(0.75f, 0.75f),
+                new Vector2f(0.20f, 0.20f));
+        guis.add(gui);
+        
+        GuiRenderer guiRenderer = new GuiRenderer(loader);
         
         while(isRunning) {
             //entity.increasePosition(0, 0, -0.1f);
             //entity.increaseRotation(0, 1, 0);
             camera.move();
-            player.move();
+            
+            // calculate which terrain player is standing on
+            player.move(terrain1);
             
             renderer.processEntity(player);
             renderer.processTerrain(terrain1);
-            renderer.processTerrain(terrain2);
+            //renderer.processTerrain(terrain2);
             for (int i = 0; i < 2500; i++) {
                 renderer.processEntity(entities.get(i));
             }
             //renderer.processEntity(entity);
             
             renderer.render(light, camera);
+            guiRenderer.render(guis);
             
             dm.renderDisplay();
             dm.updateDisplay();
@@ -189,6 +206,9 @@ public class OpenGLPlayground implements Runnable {
                 isRunning = false;
             }
         }
+        // clean up gui shaders
+        guiRenderer.cleanUp();
+        
         // clean up shaders
         renderer.cleanUp();
         
@@ -197,6 +217,14 @@ public class OpenGLPlayground implements Runnable {
         
         // close display
         dm.closeDisplay();
+    }
+    
+    private Vector3f randomPos3f (Random random, Terrain terrain) {
+        float x = random.nextFloat() * 800;
+        float z = random.nextFloat() * -800;
+        float y = terrain.getHeightOfTerrain(x, z);
+        
+        return new Vector3f(x,y,z);
     }
     
 }

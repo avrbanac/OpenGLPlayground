@@ -12,7 +12,7 @@ import hr.avrbanac.openglplayground.maths.Vector3f;
  * Terrain shader program.
  * 
  * @author avrbanac
- * @version 1.0.6
+ * @version 1.0.8
  */
 public class TerrainShader extends ShaderProgram {
     private int locationTransformationMatrix;
@@ -79,8 +79,8 @@ public class TerrainShader extends ShaderProgram {
     
     // diffusal lighting
     public void loadLight(Light light) {
-        super.loadVector(locationLightPosition, light.getPosition());
-        super.loadVector(locationLightColor, light.getColor());
+        super.load3DVector(locationLightPosition, light.getPosition());
+        super.load3DVector(locationLightColor, light.getColor());
     }
     
     // specular lighting
@@ -91,7 +91,7 @@ public class TerrainShader extends ShaderProgram {
     
     // sky color (for for etc...)
     public void loadSkyColor(float r, float g, float b) {
-        super.loadVector(locationSkyColor, new Vector3f(r,g,b));
+        super.load3DVector(locationSkyColor, new Vector3f(r,g,b));
     }
     
     // connect textures

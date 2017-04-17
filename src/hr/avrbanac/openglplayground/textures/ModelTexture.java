@@ -5,7 +5,7 @@ package hr.avrbanac.openglplayground.textures;
  * Model texture definition class.
  * 
  * @author avrbanac
- * @version 1.0.3
+ * @version 1.0.8
  */
 public class ModelTexture {
     private int textureID;
@@ -18,6 +18,9 @@ public class ModelTexture {
     
     // this is used for lighting simple terrain objects which use very small number of quad planes (normals)
     private boolean useFakeLighting = false;
+    
+    // texture atlases (default 1 - any texture is texture atlases file)
+    private int numberOfRows = 1;
     
     public ModelTexture(int textureID) {
         this.textureID = textureID;
@@ -57,6 +60,14 @@ public class ModelTexture {
 
     public void setUseFakeLighting(boolean useFakeLighting) {
         this.useFakeLighting = useFakeLighting;
+    }
+
+    public int getNumberOfRows() {
+        return numberOfRows;
+    }
+
+    public void setNumberOfRows(int numberOfRows) {
+        this.numberOfRows = numberOfRows;
     }
     
     
