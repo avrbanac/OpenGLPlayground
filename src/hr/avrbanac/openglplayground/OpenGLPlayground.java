@@ -125,7 +125,10 @@ public class OpenGLPlayground implements Runnable {
         
         //Entity entity = new Entity(staticModel, new Vector3f(0, 0, -25), 0, 0, 0, 1);
 
-        Light light = new Light(new Vector3f(3000,2000, 2000), new Vector3f(1,1,1));
+        List<Light> lights = new ArrayList<>();
+        lights.add(new Light(new Vector3f(0,10000, -7000), new Vector3f(1,1,1)));
+        lights.add(new Light(new Vector3f(-200,10, -200), new Vector3f(10,1,1)));
+        lights.add(new Light(new Vector3f(200,10, 200), new Vector3f(1,1,10)));
         
         Player player = new Player(bunny, new Vector3f(200,0,-200), 0, 180, 0, 0.3f);
         
@@ -195,7 +198,7 @@ public class OpenGLPlayground implements Runnable {
             }
             //renderer.processEntity(entity);
             
-            renderer.render(light, camera);
+            renderer.render(lights, camera);
             guiRenderer.render(guis);
             
             dm.renderDisplay();

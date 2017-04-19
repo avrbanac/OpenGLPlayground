@@ -1,25 +1,25 @@
 
 package hr.avrbanac.openglplayground.shaders;
 
-import static hr.avrbanac.openglplayground.Globals.TERRAIN_FRAGMENT_FILE;
-import static hr.avrbanac.openglplayground.Globals.TERRAIN_VERTEX_FILE;
+import static hr.avrbanac.openglplayground.Globals.*;
 import hr.avrbanac.openglplayground.entities.Camera;
 import hr.avrbanac.openglplayground.entities.Light;
 import hr.avrbanac.openglplayground.maths.Matrix4f;
 import hr.avrbanac.openglplayground.maths.Vector3f;
+import java.util.List;
 
 /**
  * Terrain shader program.
  * 
  * @author avrbanac
- * @version 1.0.8
+ * @version 1.0.10
  */
 public class TerrainShader extends ShaderProgram {
     private int locationTransformationMatrix;
     private int locationProjectionMatrix;
     private int locationViewMatrix;
-    private int locationLightPosition;
-    private int locationLightColor;
+    private int locationLightPosition[];
+    private int locationLightColor[];
     private int locationShineDamper;
     private int locationReflectivity;
     private int locationViewMatrixInverse;
@@ -46,8 +46,8 @@ public class TerrainShader extends ShaderProgram {
         locationTransformationMatrix    = super.getUniformLocation("transformationMatrix");
         locationProjectionMatrix        = super.getUniformLocation("projectionMatrix");
         locationViewMatrix              = super.getUniformLocation("viewMatrix");
-        locationLightPosition           = super.getUniformLocation("lightPosition");
-        locationLightColor              = super.getUniformLocation("lightColor");
+//        locationLightPosition           = super.getUniformLocation("lightPosition");
+//        locationLightColor              = super.getUniformLocation("lightColor");
         locationShineDamper             = super.getUniformLocation("shineDamper");
         locationReflectivity            = super.getUniformLocation("reflectivity");
         locationSkyColor                = super.getUniformLocation("skyColor");
@@ -60,6 +60,13 @@ public class TerrainShader extends ShaderProgram {
         //this can be done in vertex shader using inverse of viewMatrix if GLSL version supports it
         locationViewMatrixInverse       = super.getUniformLocation("viewMatrixInv");
         
+        // this part changed since we have arrays now instead of one light source
+        locationLightPosition           = new int[MAX_LIGHTS_NUMBER];
+        locationLightColor              = new int[MAX_LIGHTS_NUMBER];
+        for(int i = 0; i < MAX_LIGHTS_NUMBER; i++) {
+            locationLightPosition[i] = super.getUniformLocation("lightPosition[" + i + "]");
+            locationLightColor[i] = super.getUniformLocation("lightColor[" + i + "]");
+        }
     }
     
     public void loadTransformationMatrix(Matrix4f matrix) {
@@ -78,9 +85,17 @@ public class TerrainShader extends ShaderProgram {
     }
     
     // diffusal lighting
-    public void loadLight(Light light) {
-        super.load3DVector(locationLightPosition, light.getPosition());
-        super.load3DVector(locationLightColor, light.getColor());
+    public void loadLights(List<Light> lights) {
+        for (int i = 0; i < MAX_LIGHTS_NUMBER; i++) {
+            if(i<lights.size()) {
+                super.load3DVector(locationLightPosition[i], lights.get(i).getPosition());
+                super.load3DVector(locationLightColor[i], lights.get(i).getColor());
+            } else {
+                // if there is not enough lights in list load up empty info
+                super.load3DVector(locationLightPosition[i], new Vector3f(0,0,0));
+                super.load3DVector(locationLightColor[i], new Vector3f(0,0,0));
+            }
+        }
     }
     
     // specular lighting

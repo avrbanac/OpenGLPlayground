@@ -7,6 +7,15 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased]
 - Something more advance
+- LIGHT ATTENUATION !!!
+
+## [1.0.10] - 2017-04-19 @avrbanac - MULTIPLE LIGHTING
+
+### Fixed
+- MasterRenderer multiple lights support
+- StaticShader and TerrainShader support for multiple lighting sources
+- fragment shaders now support array of light sources
+- vertex shaders now support array of light sources
 
 ## [1.0.9] - 2017-04-15 @avrbanac - GUI
 

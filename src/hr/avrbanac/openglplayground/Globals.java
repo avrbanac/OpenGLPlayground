@@ -5,7 +5,7 @@ package hr.avrbanac.openglplayground;
  * Single place to hold all graphic globals.
  * 
  * @author avrbanac
- * @version 1.0.8
+ * @version 1.0.10
  */
 public class Globals {
     public static final int DISPLAY_WIDTH           = 1280;
@@ -57,5 +57,7 @@ public class Globals {
     public static final float CAMERA_MAX_DIST       = 100f;
     
     public static final float MIPMAPPING_FACTOR     = -0.4f;
+    
+    public static final int MAX_LIGHTS_NUMBER       = 4;
 }
 
