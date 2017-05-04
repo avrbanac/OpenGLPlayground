@@ -20,10 +20,11 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 ### OpenGL
 
-Had some problems with GLSL and the current machine im writhing this on, instead of using
-version 400 CORE im stuck with 1.30 for shaders. This can be defined in _shader.vert_ and _shader.frag_ files.
+Had some problems with GLSL and the current machine I'm writing this on, instead of using
+version 400 CORE or similar, I'm stuck with 1.30 for shaders. This can be changed in _shader.vert_ and _shader.frag_ files.
+Since 1.30 is my current max version, some of the maths functions had to be written manually (e.g. Matrix4f.inverse).
 
-It is important to use a version that enables the use of uniform variables in shader programs.
+For this project to work, it is important to use a version that enables the use of uniform variables in shader programs.
 
 ## Current version
 
