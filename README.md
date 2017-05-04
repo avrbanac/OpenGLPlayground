@@ -30,7 +30,7 @@ For this project to work, it is important to use a version that enables the use 
 
 ~Application is currently under construction. Target version for something that works is 1.0.0.~
 
-Application is currently in version 1.0.11.
+Application is currently in version 1.0.12.
 
 LWJGL library used for this project is in version 3.
 
