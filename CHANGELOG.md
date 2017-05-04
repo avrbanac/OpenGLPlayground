@@ -9,6 +9,11 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - Something more advance
 - LIGHT ATTENUATION !!!
 
+## [1.0.11] - 2017-05-04 @avrbanac
+
+### Fixed
+- added forgotten reflectivity to both fragment shader and terrain fragment shader
+
 ## [1.0.10] - 2017-04-19 @avrbanac - MULTIPLE LIGHTING
 
 ### Fixed

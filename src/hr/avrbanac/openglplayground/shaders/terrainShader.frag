@@ -53,7 +53,7 @@ void main(void) {
         float dampedFactor = pow(specularFactor, shineDamper);
 
         totalDiffuse =  totalDiffuse + brightness * lightColor[i];
-        totalSpecular = totalSpecular + dampedFactor * lightColor[i];
+        totalSpecular = totalSpecular + dampedFactor  * reflectivity * lightColor[i];
     }
 
     totalDiffuse = max(totalDiffuse, 0.2);
