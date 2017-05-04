@@ -13,7 +13,7 @@ import java.util.List;
  * This is just an implementation of abstract class {@ShaderProgram}
  * 
  * @author avrbanac
- * @version 1.0.10
+ * @version 1.0.12
  */
 public class StaticShader extends ShaderProgram {
 
@@ -22,6 +22,7 @@ public class StaticShader extends ShaderProgram {
     private int locationViewMatrix;
     private int locationLightPosition[];
     private int locationLightColor[];
+    private int locationAttenuation[];
     private int locationShineDamper;
     private int locationReflectivity;
     private int locationViewMatrixInverse;
@@ -61,9 +62,11 @@ public class StaticShader extends ShaderProgram {
         // this part changed since we have arrays now instead of one light source
         locationLightPosition           = new int[MAX_LIGHTS_NUMBER];
         locationLightColor              = new int[MAX_LIGHTS_NUMBER];
+        locationAttenuation             = new int[MAX_LIGHTS_NUMBER];
         for(int i = 0; i < MAX_LIGHTS_NUMBER; i++) {
-            locationLightPosition[i] = super.getUniformLocation("lightPosition[" + i + "]");
-            locationLightColor[i] = super.getUniformLocation("lightColor[" + i + "]");
+            locationLightPosition[i]    = super.getUniformLocation("lightPosition[" + i + "]");
+            locationLightColor[i]       = super.getUniformLocation("lightColor[" + i + "]");
+            locationAttenuation[i]      = super.getUniformLocation("attenuation[" + i + "]");
         }
     }
     
@@ -88,10 +91,12 @@ public class StaticShader extends ShaderProgram {
             if(i<lights.size()) {
                 super.load3DVector(locationLightPosition[i], lights.get(i).getPosition());
                 super.load3DVector(locationLightColor[i], lights.get(i).getColor());
+                super.load3DVector(locationAttenuation[i], lights.get(i).getAttenuation());
             } else {
                 // if there is not enough lights in list load up empty info
                 super.load3DVector(locationLightPosition[i], new Vector3f(0,0,0));
                 super.load3DVector(locationLightColor[i], new Vector3f(0,0,0));
+                super.load3DVector(locationAttenuation[i], new Vector3f(1,0,0));
             }
         }
     }

@@ -7,7 +7,16 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased]
 - Something more advance
-- LIGHT ATTENUATION !!!
+- SKYBOX!!!
+
+## [1.0.12] - 2017-05-04 @avrbanac - LIGHT ATTENUATION
+
+### Added
+- new lamp model (for light source to make sense)
+
+### Fixed
+- StaticShader and TerrainShader are now loading up uniform variable attenuation
+- fragment shaders now take attenuation vec3 for every light source
 
 ## [1.0.11] - 2017-05-04 @avrbanac
 

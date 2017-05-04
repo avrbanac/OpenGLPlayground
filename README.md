@@ -51,6 +51,7 @@ LWJGL library used for this project is in version 3.
 * texture atlases
 * GUI rendering
 * multiple lighting
+* light attenuation
 
 
 ## Copyright

@@ -118,6 +118,11 @@ public class OpenGLPlayground implements Runnable {
         TexturedModel bunny = new TexturedModel(
                 OBJSimpleLoader.loadObjModel("bunny", loader),
                 new ModelTexture(loader.loadTexture("white")));
+        
+        TexturedModel lamp = new TexturedModel(
+                OBJSimpleLoader.loadObjModel("lamp", loader),
+                new ModelTexture(loader.loadTexture("lamp")));
+        lamp.getTexture().setUseFakeLighting(true);
 
 //        ModelTexture texture = tree.getTexture();
 //        texture.setShineDamper(10);
@@ -126,9 +131,14 @@ public class OpenGLPlayground implements Runnable {
         //Entity entity = new Entity(staticModel, new Vector3f(0, 0, -25), 0, 0, 0, 1);
 
         List<Light> lights = new ArrayList<>();
-        lights.add(new Light(new Vector3f(0,10000, -7000), new Vector3f(1,1,1)));
-        lights.add(new Light(new Vector3f(-200,10, -200), new Vector3f(10,1,1)));
-        lights.add(new Light(new Vector3f(200,10, 200), new Vector3f(1,1,10)));
+        // "sun" with no attenuation; lower brightness
+        lights.add(new Light(new Vector3f(0,1000, -7000), new Vector3f(0.4f, 0.4f, 0.4f)));
+        
+        lights.add(new Light(new Vector3f(185, 10, -293), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new Light(new Vector3f(370, 17, -300), new Vector3f(0, 2, 2), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new Light(new Vector3f(293, 7, -305), new Vector3f(2, 2, 0), new Vector3f(1, 0.01f, 0.002f)));
+        
+        
         
         Player player = new Player(bunny, new Vector3f(200,0,-200), 0, 180, 0, 0.3f);
         
@@ -171,6 +181,10 @@ public class OpenGLPlayground implements Runnable {
                     0, random.nextFloat() * 360, 0, 1f));
         }
         
+        entities.add(new Entity(lamp, new Vector3f(184, -4.7f, -293), 0, 0, 0, 1));
+        entities.add(new Entity(lamp, new Vector3f(370, 4.2f, -300), 0, 0, 0, 1));
+        entities.add(new Entity(lamp, new Vector3f(293, -6.8f, -305), 0, 0, 0, 1));
+        
         MasterRenderer renderer = new MasterRenderer(dm.getWidth(), dm.getHeight(), Globals.FOV);
         
         List<GuiTexture> guis = new ArrayList<>();
@@ -193,7 +207,7 @@ public class OpenGLPlayground implements Runnable {
             renderer.processEntity(player);
             renderer.processTerrain(terrain1);
             //renderer.processTerrain(terrain2);
-            for (int i = 0; i < 2500; i++) {
+            for (int i = 0; i < 2503; i++) {
                 renderer.processEntity(entities.get(i));
             }
             //renderer.processEntity(entity);
