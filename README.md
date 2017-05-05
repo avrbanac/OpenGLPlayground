@@ -30,7 +30,7 @@ For this project to work, it is important to use a version that enables the use 
 
 ~Application is currently under construction. Target version for something that works is 1.0.0.~
 
-Application is currently in version 1.0.12.
+Application is currently in version 1.0.13.
 
 LWJGL library used for this project is in version 3.
 
@@ -43,7 +43,7 @@ LWJGL library used for this project is in version 3.
 * transformation, projection and view matrix calculation
 * multitextured terrain
 * transparency
-* implemented entities: objects, player, camera, light, terrain
+* implemented entities: objects, player, camera, light, terrain, lightStand
 * diffusal and specular lighting
 * fog
 * 3rd person view
