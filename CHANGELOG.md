@@ -15,6 +15,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - LightStand new entity that holds together light object and light source
 
 ### Fixed
+- internal organization of files in project together with build.xml to enable correct dist folder building
 - instead of using OBJSimpleLoader class, no OBJFileLoader class is used (optimization)
 
 ## [1.0.12] - 2017-05-04 @avrbanac - LIGHT ATTENUATION

@@ -12,20 +12,20 @@ public class Globals {
     public static final int DISPLAY_HEIGHT          = 720;
     public static final String DISPLAY_TITLE        = "GLFW window";
     
-    public static final String VERTEX_FILE              = "src/hr/avrbanac/openglplayground/shaders/shader.vert";
-    public static final String FRAGMENT_FILE            = "src/hr/avrbanac/openglplayground/shaders/shader.frag";
-    public static final String TERRAIN_VERTEX_FILE      = "src/hr/avrbanac/openglplayground/shaders/terrainShader.vert";
-    public static final String TERRAIN_FRAGMENT_FILE    = "src/hr/avrbanac/openglplayground/shaders/terrainShader.frag";
-    public static final String GUI_VERTEX_FILE          = "src/hr/avrbanac/openglplayground/shaders/guiShader.vert";
-    public static final String GUI_FRAGMENT_FILE        = "src/hr/avrbanac/openglplayground/shaders/guiShader.frag";
+    public static final String VERTEX_FILE              = "res/shaders/shader.vert";
+    public static final String FRAGMENT_FILE            = "res/shaders/shader.frag";
+    public static final String TERRAIN_VERTEX_FILE      = "res/shaders/terrainShader.vert";
+    public static final String TERRAIN_FRAGMENT_FILE    = "res/shaders/terrainShader.frag";
+    public static final String GUI_VERTEX_FILE          = "res/shaders/guiShader.vert";
+    public static final String GUI_FRAGMENT_FILE        = "res/shaders/guiShader.frag";
     
     public static final String TEXTURE_TYPE         = "PNG";
-    public static final String TEXTURE_FOLDER       = "res/texture/";
+    public static final String TEXTURE_FOLDER       = "res/textures/";
     public static final String TEXTURE_EXTENSION    = ".png";
-    public static final String MODEL_FOLDER         = "res/model/";
+    public static final String MODEL_FOLDER         = "res/models/";
     public static final String MODEL_EXTENSION      = ".obj";
     public static final String HEIGHT_MAP_EXT       = ".png";
-    public static final String HEIGHT_MAP_FOL       = "res/texture/";
+    public static final String HEIGHT_MAP_FOL       = "res/textures/";
     
     public static final float FOV                   = 70f;
     public static final float NEAR_PLANE            = 0.1f;
