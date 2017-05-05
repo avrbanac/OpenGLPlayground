@@ -54,7 +54,6 @@ LWJGL library used for this project is in version 3.
 * multiple lighting
 * light attenuation
 
-
 ## Copyright
 
 YEAH, right....

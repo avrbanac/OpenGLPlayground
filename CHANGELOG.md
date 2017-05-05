@@ -9,6 +9,14 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - Something more advance
 - SKYBOX!!!
 
+## [1.0.13] - 2017-05-05 @avrbanac
+
+### Added
+- LightStand new entity that holds together light object and light source
+
+### Fixed
+- instead of using OBJSimpleLoader class, no OBJFileLoader class is used (optimization)
+
 ## [1.0.12] - 2017-05-04 @avrbanac - LIGHT ATTENUATION
 
 ### Added

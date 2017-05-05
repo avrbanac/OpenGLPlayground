@@ -33,6 +33,7 @@ public class Entity {
             Vector3f position,
             float rotX, float rotY, float rotZ,
             float scale) {
+        
         this.model = model;
         this.textureIndex = textureIndex;
         this.position = position;

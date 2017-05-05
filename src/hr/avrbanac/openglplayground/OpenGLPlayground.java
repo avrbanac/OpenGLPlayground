@@ -1,25 +1,25 @@
 
 package hr.avrbanac.openglplayground;
 
-import hr.avrbanac.openglplayground.entities.Entity;
 import hr.avrbanac.openglplayground.display.DisplayManager;
+import hr.avrbanac.openglplayground.entities.Entity;
 import hr.avrbanac.openglplayground.entities.Camera;
+import hr.avrbanac.openglplayground.entities.LampStand;
 import hr.avrbanac.openglplayground.entities.Light;
 import hr.avrbanac.openglplayground.entities.Player;
-import hr.avrbanac.openglplayground.textures.GuiTexture;
 import hr.avrbanac.openglplayground.renderers.GuiRenderer;
+import hr.avrbanac.openglplayground.renderers.MasterRenderer;
+import hr.avrbanac.openglplayground.maths.Vector2f;
 import hr.avrbanac.openglplayground.maths.Vector3f;
 import hr.avrbanac.openglplayground.loaders.ModelLoader;
 import hr.avrbanac.openglplayground.loaders.OBJFileLoader;
 import hr.avrbanac.openglplayground.models.TexturedModel;
-import hr.avrbanac.openglplayground.renderers.MasterRenderer;
-import hr.avrbanac.openglplayground.loaders.OBJSimpleLoader;
-import hr.avrbanac.openglplayground.maths.Vector2f;
 import hr.avrbanac.openglplayground.models.ModelData;
-import hr.avrbanac.openglplayground.terrains.Terrain;
+import hr.avrbanac.openglplayground.textures.GuiTexture;
 import hr.avrbanac.openglplayground.textures.ModelTexture;
 import hr.avrbanac.openglplayground.textures.TerrainTexture;
 import hr.avrbanac.openglplayground.textures.TerrainTexturePack;
+import hr.avrbanac.openglplayground.terrains.Terrain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -31,7 +31,7 @@ import org.lwjgl.glfw.GLFWErrorCallback;
  * Main class with application point of entry.
  * 
  * @author avrbanac
- * @version 1.0.8
+ * @version 1.0.13
  */
 public class OpenGLPlayground implements Runnable {
 
@@ -77,69 +77,57 @@ public class OpenGLPlayground implements Runnable {
         
         ModelLoader loader = new ModelLoader();
         
+//        TexturedModel tree = new TexturedModel(
+//                OBJSimpleLoader.loadObjModel("tree", loader),
+//                new ModelTexture(loader.loadTexture("tree")));
+//        tree.getTexture().setShineDamper(10);
         ModelData tree1Data = OBJFileLoader.loadOBJ("tree");
         TexturedModel tree1 = new TexturedModel(
                 loader.loadToVAO(tree1Data.getVertices(), tree1Data.getTextureCoords(), tree1Data.getNormals(), tree1Data.getIndices()),
                 new ModelTexture(loader.loadTexture("tree")));
         tree1.getTexture().setShineDamper(10);
+        
         ModelData tree2Data = OBJFileLoader.loadOBJ("lowPolyTree");
         TexturedModel tree2 = new TexturedModel(
                 loader.loadToVAO(tree2Data.getVertices(), tree2Data.getTextureCoords(), tree2Data.getNormals(), tree2Data.getIndices()),
                 new ModelTexture(loader.loadTexture("lowPolyTree")));
         tree2.getTexture().setShineDamper(10);
         
-        
-//        TexturedModel tree = new TexturedModel(
-//                OBJSimpleLoader.loadObjModel("tree", loader),
-//                new ModelTexture(loader.loadTexture("tree")));
-//        tree.getTexture().setShineDamper(10);
+        // using the same data model for 2 different textures
+        ModelData grassData = OBJFileLoader.loadOBJ("grassModel");
         TexturedModel grass = new TexturedModel(
-                OBJSimpleLoader.loadObjModel("grassModel", loader),
+                loader.loadToVAO(grassData.getVertices(), grassData.getTextureCoords(), grassData.getNormals(), grassData.getIndices()),
                 new ModelTexture(loader.loadTexture("grassTexture")));
         grass.getTexture().setTransparency(true);
         grass.getTexture().setShineDamper(10);
         grass.getTexture().setUseFakeLighting(true);
-        
         TexturedModel flower = new TexturedModel(
-                OBJSimpleLoader.loadObjModel("grassModel", loader),
+                loader.loadToVAO(grassData.getVertices(), grassData.getTextureCoords(), grassData.getNormals(), grassData.getIndices()),
                 new ModelTexture(loader.loadTexture("flower")));
         flower.getTexture().setTransparency(true);
         flower.getTexture().setShineDamper(10);
         flower.getTexture().setUseFakeLighting(true);
         
+        ModelData fernData = OBJFileLoader.loadOBJ("fern");
         TexturedModel fern = new TexturedModel(
-                OBJSimpleLoader.loadObjModel("fern", loader),
+                loader.loadToVAO(fernData.getVertices(), fernData.getTextureCoords(), fernData.getNormals(), fernData.getIndices()),
                 new ModelTexture(loader.loadTexture("fernAtlas")));
         fern.getTexture().setTransparency(true);
         fern.getTexture().setShineDamper(10);
         // texture atlas 2x2
         fern.getTexture().setNumberOfRows(2);
         
+        ModelData bunnyData = OBJFileLoader.loadOBJ("bunny");
         TexturedModel bunny = new TexturedModel(
-                OBJSimpleLoader.loadObjModel("bunny", loader),
+                loader.loadToVAO(bunnyData.getVertices(), bunnyData.getTextureCoords(), bunnyData.getNormals(), bunnyData.getIndices()),
                 new ModelTexture(loader.loadTexture("white")));
         
+        ModelData lampData = OBJFileLoader.loadOBJ("lamp");
         TexturedModel lamp = new TexturedModel(
-                OBJSimpleLoader.loadObjModel("lamp", loader),
+                loader.loadToVAO(lampData.getVertices(), lampData.getTextureCoords(), lampData.getNormals(), lampData.getIndices()),
                 new ModelTexture(loader.loadTexture("lamp")));
-        lamp.getTexture().setUseFakeLighting(true);
 
-//        ModelTexture texture = tree.getTexture();
-//        texture.setShineDamper(10);
-//        texture.setReflectivity(1);
-        
-        //Entity entity = new Entity(staticModel, new Vector3f(0, 0, -25), 0, 0, 0, 1);
 
-        List<Light> lights = new ArrayList<>();
-        // "sun" with no attenuation; lower brightness
-        lights.add(new Light(new Vector3f(0,1000, -7000), new Vector3f(0.4f, 0.4f, 0.4f)));
-        
-        lights.add(new Light(new Vector3f(185, 10, -293), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
-        lights.add(new Light(new Vector3f(370, 17, -300), new Vector3f(0, 2, 2), new Vector3f(1, 0.01f, 0.002f)));
-        lights.add(new Light(new Vector3f(293, 7, -305), new Vector3f(2, 2, 0), new Vector3f(1, 0.01f, 0.002f)));
-        
-        
-        
         Player player = new Player(bunny, new Vector3f(200,0,-200), 0, 180, 0, 0.3f);
         
         Camera camera = new Camera(player);
@@ -181,9 +169,23 @@ public class OpenGLPlayground implements Runnable {
                     0, random.nextFloat() * 360, 0, 1f));
         }
         
-        entities.add(new Entity(lamp, new Vector3f(184, -4.7f, -293), 0, 0, 0, 1));
-        entities.add(new Entity(lamp, new Vector3f(370, 4.2f, -300), 0, 0, 0, 1));
-        entities.add(new Entity(lamp, new Vector3f(293, -6.8f, -305), 0, 0, 0, 1));
+        LampStand lamp1 = new LampStand(lamp, new Vector3f(184, -4.7f, -293), 0, 0, 0, 1, new Vector3f(2, 0, 0));
+        LampStand lamp2 = new LampStand(lamp, new Vector3f(370, 4.2f, -300), 0, 0, 0, 1, new Vector3f(0, 2, 2));
+        LampStand lamp3 = new LampStand(lamp, new Vector3f(293, -6.8f, -305), 0, 0, 0, 1, new Vector3f(2, 2, 0));
+        
+        entities.add(lamp1);
+        entities.add(lamp2);
+        entities.add(lamp3);
+        
+        List<Light> lights = new ArrayList<>();
+        // "sun" with no attenuation; lower brightness
+        lights.add(new Light(new Vector3f(0,1000, -7000), new Vector3f(0.4f, 0.4f, 0.4f)));
+//        lights.add(new Light(new Vector3f(185, 10, -293), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
+//        lights.add(new Light(new Vector3f(370, 17, -300), new Vector3f(0, 2, 2), new Vector3f(1, 0.01f, 0.002f)));
+//        lights.add(new Light(new Vector3f(293, 7, -305), new Vector3f(2, 2, 0), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(lamp1.getLampLight());
+        lights.add(lamp2.getLampLight());
+        lights.add(lamp3.getLampLight());
         
         MasterRenderer renderer = new MasterRenderer(dm.getWidth(), dm.getHeight(), Globals.FOV);
         
