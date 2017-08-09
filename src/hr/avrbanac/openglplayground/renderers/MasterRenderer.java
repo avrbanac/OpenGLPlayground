@@ -54,6 +54,17 @@ public class MasterRenderer {
         skyboxRenderer  = new SkyboxRenderer(loader, projectionMatrix);
     }
     
+    public void renderScene(List<Terrain> terrains, List<Entity> entities, List<Light> lights, Camera camera) {
+        terrains.forEach((terrain) -> {
+            processTerrain(terrain);
+        });
+        entities.forEach((entity) -> {
+            processEntity(entity);
+        });
+        
+        render(lights, camera);
+    }
+    
     public static void enableCulling() {
         // don't render faces that will never be seen
         GL11.glEnable(GL11.GL_CULL_FACE);

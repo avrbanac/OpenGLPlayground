@@ -20,7 +20,7 @@ import org.lwjgl.opengl.GL30;
  * @version 1.0.8
  */
 public class TerrainRenderer {
-    private TerrainShader shader;
+    private final TerrainShader shader;
     
     public TerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
@@ -74,11 +74,7 @@ public class TerrainRenderer {
     
     public void loadModelMatrix(Terrain terrain) {
         Matrix4f transformationMatrix = Matrix4f.transformation(
-                new Vector3f(terrain.getX(), 0, terrain.getZ()),
-                0,
-                0,
-                0,
-                1);
+                new Vector3f(terrain.getX(), 0, terrain.getZ()), 0, 0, 0, 1);
         shader.loadTransformationMatrix(transformationMatrix);
     }
 }

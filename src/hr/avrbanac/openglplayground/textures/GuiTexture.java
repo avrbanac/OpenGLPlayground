@@ -9,9 +9,9 @@ import hr.avrbanac.openglplayground.maths.Vector2f;
  * @version 1.0.9
  */
 public class GuiTexture {
-    private int texture;
-    private Vector2f position;
-    private Vector2f scale;
+    private final int texture;
+    private final Vector2f position;
+    private final Vector2f scale;
 
     public GuiTexture(int texture, Vector2f position, Vector2f scale) {
         this.texture = texture;

@@ -131,6 +131,9 @@ public class OpenGLPlayground implements Runnable {
 
         Player player = new Player(bunny, new Vector3f(200,0,-200), 0, 180, 0, 0.3f);
         
+        List<Entity> entities = new ArrayList<>();
+        entities.add(player);
+        
         Camera camera = new Camera(player);
 
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass"));
@@ -143,9 +146,10 @@ public class OpenGLPlayground implements Runnable {
         
         Terrain terrain1 = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
         //Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap, "heightmap");
+        List<Terrain> terrains = new ArrayList<>();
+        terrains.add(terrain1);
         
         Random random = new Random();
-        List<Entity> entities = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             entities.add(new Entity(
                     tree1, 
@@ -211,21 +215,16 @@ public class OpenGLPlayground implements Runnable {
             // calculate which terrain player is standing on
             player.move(terrain1);
             
+            // mouse picker
             picker.update();
             Vector3f terrainPoint = picker.getCurrentTerrainPoint();
             if (terrainPoint != null) {
                 mouseLamp.setPosition(terrainPoint);
                 mouseLamp.getLampLight().setPosition(new Vector3f(terrainPoint.x, terrainPoint.y+20f, terrainPoint.z));
             }
-
-            renderer.processEntity(player);
-            renderer.processTerrain(terrain1);
             
-            entities.forEach(renderer::processEntity);
+            renderer.renderScene(terrains, entities, lights, camera);
             
-            
-            
-            renderer.render(lights, camera);
             guiRenderer.render(guis);
             
             dm.renderDisplay();

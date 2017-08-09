@@ -20,12 +20,12 @@ import javax.imageio.ImageIO;
  * @version 1.0.8
  */
 public class Terrain {
-    private float x;
-    private float z;
+    private final float x;
+    private final float z;
     
-    private RawModel model;
-    private TerrainTexturePack texturePack;
-    private TerrainTexture blendMap;
+    private final RawModel model;
+    private final TerrainTexturePack texturePack;
+    private final TerrainTexture blendMap;
     
     private float[][] heights;
     

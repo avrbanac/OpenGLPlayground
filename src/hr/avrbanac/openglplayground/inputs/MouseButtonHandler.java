@@ -12,24 +12,24 @@ import org.lwjgl.glfw.GLFWMouseButtonCallback;
  */
 public class MouseButtonHandler extends GLFWMouseButtonCallback {
 
-    private static boolean[] buttons = new boolean[GLFW_MOUSE_BUTTON_LAST + 1];
-    private static boolean[] buttonsChange = new boolean[GLFW_MOUSE_BUTTON_LAST + 1];
+    private static final boolean[] BUTTONS = new boolean[GLFW_MOUSE_BUTTON_LAST + 1];
+    private static final boolean[] BUTTONS_CHANGE = new boolean[GLFW_MOUSE_BUTTON_LAST + 1];
     
     @Override
     public void invoke(long window, int button, int action, int mods) {
         boolean newState = action != GLFW_RELEASE;
         
-        buttonsChange[button] = (buttons[button] != newState);
-        buttons[button]= newState;
+        BUTTONS_CHANGE[button] = (BUTTONS[button] != newState);
+        BUTTONS[button]= newState;
         
     }
     
     public static boolean isButtonDown(int buttonCode) {
-        return buttons[buttonCode];
+        return BUTTONS[buttonCode];
     }
     
     public static boolean hasButtonChangedState(int buttonCode) {
-        return buttonsChange[buttonCode] | (buttonsChange[buttonCode] = false);
+        return BUTTONS_CHANGE[buttonCode] | (BUTTONS_CHANGE[buttonCode] = false);
     }
     
 }

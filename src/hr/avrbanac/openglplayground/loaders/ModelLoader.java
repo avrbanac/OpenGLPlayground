@@ -31,9 +31,9 @@ import org.lwjgl.opengl.GL14;
  */
 public class ModelLoader {
     
-    private List<Integer> vaos = new ArrayList<>();
-    private List<Integer> vbos = new ArrayList<>();
-    private List<Integer> texs = new ArrayList<>();
+    private final List<Integer> vaos = new ArrayList<>();
+    private final List<Integer> vbos = new ArrayList<>();
+    private final List<Integer> texs = new ArrayList<>();
     
     public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices) {
         int vaoID = createVAO();
@@ -103,7 +103,7 @@ public class ModelLoader {
             decoder.decode(buffer, width * 4, PNGDecoder.Format.RGBA);
             buffer.flip();
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             System.err.println("Tried to load texture " + fileName + ", didn't work");
             System.exit(-1);
         }

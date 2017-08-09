@@ -12,26 +12,26 @@ import static org.lwjgl.glfw.GLFW.*;
  * Camera representation class.
  * 
  * @author avrbanac
- * @version 1.0.7
+ * @version 1.0.15
  */
 public class Camera {
     
     private Vector3f position;
     private float pitch;
     private float yaw;
-    private float roll;
+    private final float roll;
     
-    private Player player;
+    private final Player player;
     private float distanceFromPlayer;
     private float angleAroundPlayer;
     
     public Camera(Player player) {
         this.player = player;
         position    =  new Vector3f(0,0,0);
-        pitch   = 20;
+        pitch   = 10;
         yaw     = 0;
         roll    = 0;
-        distanceFromPlayer  = 50;
+        distanceFromPlayer  = 150;
         angleAroundPlayer   = 0;
     }
 

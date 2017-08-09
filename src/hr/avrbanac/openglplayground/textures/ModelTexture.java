@@ -8,7 +8,7 @@ package hr.avrbanac.openglplayground.textures;
  * @version 1.0.8
  */
 public class ModelTexture {
-    private int textureID;
+    private final int textureID;
     
     private float shineDamper = 1;
     private float reflectivity = 0;

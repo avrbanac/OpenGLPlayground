@@ -63,7 +63,7 @@ public class Globals {
     public static final float MOUSE_SENS_MOVE_X     = 0.3f;
     public static final float MOUSE_SENS_MOVE_Y     = 0.1f;
     
-    public static final float CAMERA_MIN_PITCH      = -90f;
+    public static final float CAMERA_MIN_PITCH      = 5f;
     public static final float CAMERA_MAX_PITCH      = 90f;
     public static final float CAMERA_MIN_DIST       = 25f;
     public static final float CAMERA_MAX_DIST       = 500f;
