@@ -21,11 +21,11 @@ import org.lwjgl.opengl.GL30;
 public class GuiRenderer {
     
     private final RawModel quad;
-    private GuiShader shader;
+    private final GuiShader shader;
     
     public GuiRenderer(ModelLoader loader) {
         float[] positions = { -1, 1, -1, -1, 1, 1, 1, -1 };
-        quad = loader.loadToVAO(positions);
+        quad = loader.loadToVAO(positions, 2);
         shader = new GuiShader();
     }
     

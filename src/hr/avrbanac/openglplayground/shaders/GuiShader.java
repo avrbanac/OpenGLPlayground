@@ -4,7 +4,6 @@ package hr.avrbanac.openglplayground.shaders;
 import static hr.avrbanac.openglplayground.Globals.GUI_VERTEX_FILE;
 import static hr.avrbanac.openglplayground.Globals.GUI_FRAGMENT_FILE;
 import hr.avrbanac.openglplayground.maths.Matrix4f;
-import hr.avrbanac.openglplayground.shaders.ShaderProgram;
 
 /**
  *

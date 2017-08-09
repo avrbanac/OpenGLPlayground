@@ -5,6 +5,7 @@ import static hr.avrbanac.openglplayground.Globals.*;
 import hr.avrbanac.openglplayground.entities.Camera;
 import hr.avrbanac.openglplayground.entities.Entity;
 import hr.avrbanac.openglplayground.entities.Light;
+import hr.avrbanac.openglplayground.loaders.ModelLoader;
 import hr.avrbanac.openglplayground.maths.Matrix4f;
 import hr.avrbanac.openglplayground.models.TexturedModel;
 import hr.avrbanac.openglplayground.shaders.StaticShader;
@@ -27,17 +28,19 @@ import org.lwjgl.opengl.GL11;
  * @version 1.0.10
  */
 public class MasterRenderer {
-    private StaticShader shader;
-    private EntityRenderer renderer;
-    private TerrainShader terrainShader;
-    private TerrainRenderer terrainRenderer;
+    private final StaticShader shader;
+    private final EntityRenderer renderer;
+    private final TerrainShader terrainShader;
+    private final TerrainRenderer terrainRenderer;
     
-    private Matrix4f projectionMatrix;
+    private final Matrix4f projectionMatrix;
     
-    private Map<TexturedModel, List<Entity>> entities = new HashMap<>();
-    private List<Terrain> terrains = new ArrayList<>();
+    private final Map<TexturedModel, List<Entity>> entities = new HashMap<>();
+    private final List<Terrain> terrains = new ArrayList<>();
+    
+    private final SkyboxRenderer skyboxRenderer;
 
-    public MasterRenderer(int width, int height, float fov) {
+    public MasterRenderer(int width, int height, float fov, ModelLoader loader) {
         enableCulling();
         
         projectionMatrix = Matrix4f.projection(width, height, fov);
@@ -47,6 +50,8 @@ public class MasterRenderer {
         
         terrainShader   = new TerrainShader();
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
+        
+        skyboxRenderer  = new SkyboxRenderer(loader, projectionMatrix);
     }
     
     public static void enableCulling() {
@@ -76,6 +81,7 @@ public class MasterRenderer {
         terrainShader.loadViewMatrix(camera);
         terrainRenderer.render(terrains);
         terrainShader.stop();
+        skyboxRenderer.render(camera, SKY_RED, SKY_GREEN, SKY_BLUE);
         
         // clear hashmap or else it would build up with each render call
         entities.clear();

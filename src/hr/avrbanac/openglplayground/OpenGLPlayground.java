@@ -31,7 +31,7 @@ import org.lwjgl.glfw.GLFWErrorCallback;
  * Main class with application point of entry.
  * 
  * @author avrbanac
- * @version 1.0.13
+ * @version 1.0.14
  */
 public class OpenGLPlayground implements Runnable {
 
@@ -145,7 +145,7 @@ public class OpenGLPlayground implements Runnable {
         
         Random random = new Random();
         List<Entity> entities = new ArrayList<>();
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 100; i++) {
             entities.add(new Entity(
                     tree1, 
                     randomPos3f(random, terrain1),
@@ -180,14 +180,11 @@ public class OpenGLPlayground implements Runnable {
         List<Light> lights = new ArrayList<>();
         // "sun" with no attenuation; lower brightness
         lights.add(new Light(new Vector3f(0,1000, -7000), new Vector3f(0.4f, 0.4f, 0.4f)));
-//        lights.add(new Light(new Vector3f(185, 10, -293), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
-//        lights.add(new Light(new Vector3f(370, 17, -300), new Vector3f(0, 2, 2), new Vector3f(1, 0.01f, 0.002f)));
-//        lights.add(new Light(new Vector3f(293, 7, -305), new Vector3f(2, 2, 0), new Vector3f(1, 0.01f, 0.002f)));
         lights.add(lamp1.getLampLight());
         lights.add(lamp2.getLampLight());
         lights.add(lamp3.getLampLight());
         
-        MasterRenderer renderer = new MasterRenderer(dm.getWidth(), dm.getHeight(), Globals.FOV);
+        MasterRenderer renderer = new MasterRenderer(dm.getWidth(), dm.getHeight(), Globals.FOV, loader);
         
         List<GuiTexture> guis = new ArrayList<>();
         GuiTexture gui = new GuiTexture(
@@ -208,11 +205,8 @@ public class OpenGLPlayground implements Runnable {
             
             renderer.processEntity(player);
             renderer.processTerrain(terrain1);
-            //renderer.processTerrain(terrain2);
-            for (int i = 0; i < 2503; i++) {
-                renderer.processEntity(entities.get(i));
-            }
-            //renderer.processEntity(entity);
+            
+            entities.forEach(renderer::processEntity);
             
             renderer.render(lights, camera);
             guiRenderer.render(guis);

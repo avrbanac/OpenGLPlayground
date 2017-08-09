@@ -5,19 +5,21 @@ package hr.avrbanac.openglplayground;
  * Single place to hold all graphic globals.
  * 
  * @author avrbanac
- * @version 1.0.13
+ * @version 1.0.14
  */
 public class Globals {
     public static final int DISPLAY_WIDTH           = 1280;
     public static final int DISPLAY_HEIGHT          = 720;
     public static final String DISPLAY_TITLE        = "GLFW window";
     
-    public static final String VERTEX_FILE              = "res/shaders/shader.vert";
-    public static final String FRAGMENT_FILE            = "res/shaders/shader.frag";
-    public static final String TERRAIN_VERTEX_FILE      = "res/shaders/terrainShader.vert";
-    public static final String TERRAIN_FRAGMENT_FILE    = "res/shaders/terrainShader.frag";
-    public static final String GUI_VERTEX_FILE          = "res/shaders/guiShader.vert";
-    public static final String GUI_FRAGMENT_FILE        = "res/shaders/guiShader.frag";
+    public static final String VERTEX_FILE              = "res/shaders/shaderVertex.glsl";
+    public static final String FRAGMENT_FILE            = "res/shaders/shaderFragment.glsl";
+    public static final String TERRAIN_VERTEX_FILE      = "res/shaders/terrainVertex.glsl";
+    public static final String TERRAIN_FRAGMENT_FILE    = "res/shaders/terrainFragment.glsl";
+    public static final String GUI_VERTEX_FILE          = "res/shaders/guiVertex.glsl";
+    public static final String GUI_FRAGMENT_FILE        = "res/shaders/guiFragment.glsl";
+    public static final String SKYBOX_VERTEX_FILE       = "res/shaders/skyboxVertex.glsl";
+    public static final String SKYBOX_FRAGMENT_FILE     = "res/shaders/skyboxFragment.glsl";
     
     public static final String TEXTURE_TYPE         = "PNG";
     public static final String TEXTURE_FOLDER       = "res/textures/";
@@ -26,6 +28,10 @@ public class Globals {
     public static final String MODEL_EXTENSION      = ".obj";
     public static final String HEIGHT_MAP_EXT       = ".png";
     public static final String HEIGHT_MAP_FOL       = "res/textures/";
+    public static final String TEXTURE_CUBE_FILE    = "res/textures/skybox/";
+    public static final String TEXTURE_CUBE_EXT     = ".png";
+    
+    public static final Boolean FIX_SKYBOX_SEAMS    = false;
     
     public static final float FOV                   = 70f;
     public static final float NEAR_PLANE            = 0.1f;
@@ -35,10 +41,12 @@ public class Globals {
     
     public static final float TERRAIN_SIZE          = 800;
     public static final float TERRAIN_MAX_HEIGHT    = 40;
+    public static final float SKYBOX_SIZE           = 500;
+    public static final float SKYBOX_ROT_SPEED      = 1f;
     
-    public static final float SKY_RED               = 0.5f;
-    public static final float SKY_GREEN             = 0.5f;
-    public static final float SKY_BLUE              = 1f;
+    public static final float SKY_RED               = 0.45f;
+    public static final float SKY_GREEN             = 0.53f;
+    public static final float SKY_BLUE              = 0.59f;
     
     public static final double TO_MILLISECONDS      = 1000;
     
@@ -51,10 +59,10 @@ public class Globals {
     public static final float MOUSE_SENS_MOVE_X     = 0.3f;
     public static final float MOUSE_SENS_MOVE_Y     = 0.1f;
     
-    public static final float CAMERA_MIN_PITCH      = 5f;
+    public static final float CAMERA_MIN_PITCH      = -90f;
     public static final float CAMERA_MAX_PITCH      = 90f;
     public static final float CAMERA_MIN_DIST       = 25f;
-    public static final float CAMERA_MAX_DIST       = 100f;
+    public static final float CAMERA_MAX_DIST       = 500f;
     
     public static final float MIPMAPPING_FACTOR     = -0.4f;
     

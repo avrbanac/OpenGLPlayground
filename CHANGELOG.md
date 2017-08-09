@@ -9,6 +9,26 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - Something more advance
 - SKYBOX!!!
 
+## [1.0.14] - 2017-08-08 @avrbanac - SKYBOX
+
+### Added
+- 
+- blendFactor in skybox fragment shader so there can be a night / day skybox cycle 
+- skybox renderer
+- skybox shaders
+- TextureData class
+- new load method for cube textures in ModelLoader class
+
+### Fixed
+- code structure changes
+- Matrix4f class rotation methods
+- problems with rotation of the view matrix for skybox shader
+- slowly rotating skybox around Y-axis: cloud movement trick
+- skyboxFragment shader calculates lower and upper limit horizon lines to make fog more realistic
+- master renderer now renders skybox too
+- loadToVAO method in MoldeLoader now takes number of dimensions as parameter
+- small cleanups in OpenGLPlayground
+
 ## [1.0.13] - 2017-05-05 @avrbanac
 
 ### Added

@@ -10,7 +10,7 @@ import java.nio.FloatBuffer;
  * Custom matrix math class needed for matrix manipulation.
  * 
  * @author avrbanac
- * @version 1.0.8
+ * @version 1.0.14
  */
 public class Matrix4f {
     
@@ -74,7 +74,18 @@ public class Matrix4f {
         return result;
     }
     
-    public static Matrix4f rotateZ(float angle) {
+    public void rotateZ(float angle) {
+        float r = (float) Math.toRadians(angle);
+        float cos = (float) Math.cos(r);
+        float sin = (float) Math.sin(r);
+        
+        this.elements[0 + 0 * 4] =  cos;
+        this.elements[1 + 0 * 4] =  sin;
+        this.elements[0 + 1 * 4] = -sin;
+        this.elements[1 + 1 * 4] =  cos;  
+    }
+    
+    public static Matrix4f rotationZ(float angle) {
         Matrix4f result = identity();
         
         float r = (float) Math.toRadians(angle);
@@ -89,7 +100,18 @@ public class Matrix4f {
         return result;
     }
     
-    public static Matrix4f rotateY(float angle) {
+    public void rotateY(float angle) {
+        float r = (float) Math.toRadians(angle);
+        float cos = (float) Math.cos(r);
+        float sin = (float) Math.sin(r);
+        
+        this.elements[0 + 0 * 4] =  cos;
+        this.elements[2 + 0 * 4] = -sin;
+        this.elements[0 + 2 * 4] =  sin;
+        this.elements[2 + 2 * 4] =  cos;
+    }
+    
+    public static Matrix4f rotationY(float angle) {
         Matrix4f result = identity();
         
         float r = (float) Math.toRadians(angle);
@@ -104,7 +126,18 @@ public class Matrix4f {
         return result;
     }
     
-    public static Matrix4f rotateX(float angle) {
+    public void rotateX(float angle) {
+        float r = (float) Math.toRadians(angle);
+        float cos = (float) Math.cos(r);
+        float sin = (float) Math.sin(r);
+        
+        this.elements[1 + 1 * 4] =  cos;
+        this.elements[2 + 1 * 4] =  sin;
+        this.elements[1 + 2 * 4] = -sin;
+        this.elements[2 + 2 * 4] =  cos;
+    }
+    
+    public static Matrix4f rotationX(float angle) {
         Matrix4f result = identity();
         
         float r = (float) Math.toRadians(angle);
@@ -119,7 +152,26 @@ public class Matrix4f {
         return result;
     }
     
-    public static Matrix4f rotate(float angle, float x, float y, float z) {
+    public void rotate(float angle, float x, float y, float z) {
+        float r = (float) Math.toRadians(angle);
+        float cos = (float) Math.cos(r);
+        float sin = (float) Math.sin(r);
+        float omc = (float) 1.0f - cos;
+        
+        this.elements[0 + 0 * 4] = x * omc + cos;
+        this.elements[1 + 0 * 4] = y * x * omc + z * sin;
+        this.elements[2 + 0 * 4] = x * z * omc - y * sin;
+        
+        this.elements[0 + 1 * 4] = x * y * omc - z * sin;
+        this.elements[1 + 1 * 4] = y * omc + cos;
+        this.elements[2 + 1 * 4] = y * z * omc + x * sin;
+        
+        this.elements[0 + 2 * 4] = x * z * omc + y * sin;
+        this.elements[1 + 2 * 4] = y * z * omc - x * sin;
+        this.elements[2 + 2 * 4] = z * omc + cos;
+    }
+    
+    public static Matrix4f rotation(float angle, float x, float y, float z) {
         Matrix4f result = identity();
         
         float r = (float) Math.toRadians(angle);
@@ -166,9 +218,9 @@ public class Matrix4f {
     
     public static Matrix4f transformation(Vector3f translation, float rx, float ry, float rz, float scale) {
         Matrix4f translationMatrix  = translate(translation);
-        Matrix4f rotationXMatrix    = rotate(rx, 1, 0 ,0);
-        Matrix4f rotationYMatrix    = rotate(ry, 0, 1, 0);
-        Matrix4f rotationZMatrix    = rotate(rz, 0, 0 ,1);
+        Matrix4f rotationXMatrix    = rotation(rx, 1, 0 ,0);
+        Matrix4f rotationYMatrix    = rotation(ry, 0, 1, 0);
+        Matrix4f rotationZMatrix    = rotation(rz, 0, 0 ,1);
         Matrix4f scaleMatrix        = scale(scale);
         
         return (((translationMatrix
@@ -209,9 +261,9 @@ public class Matrix4f {
     }
     
     public static Matrix4f view(Camera camera) {
-        Matrix4f rotationXMatrix = rotate(camera.getPitch(),1,0,0);
-        Matrix4f rotationYMatrix = rotate(camera.getYaw(),0,1,0);
-        Matrix4f rotationZMatrix = rotate(camera.getRoll(),0,0,1);
+        Matrix4f rotationXMatrix = rotation(camera.getPitch(),1,0,0);
+        Matrix4f rotationYMatrix = rotation(camera.getYaw(),0,1,0);
+        Matrix4f rotationZMatrix = rotation(camera.getRoll(),0,0,1);
         
         // for view Matrix movement everything must be reversed
         Vector3f cameraPosition     = camera.getPosition();
