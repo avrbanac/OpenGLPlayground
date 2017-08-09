@@ -230,6 +230,23 @@ public class Matrix4f {
                 .multiply(scaleMatrix);   
     }
     
+    public static Vector4f transform(Matrix4f left, Vector4f right, Vector4f dest) {
+        if (dest == null) dest = new Vector4f();
+
+        float x = left.elements[0] * right.x + left.elements[4] * right.y + left.elements[8] * right.z + left.elements[12] * right.w;
+        float y = left.elements[1]* right.x + left.elements[5] * right.y + left.elements[9] * right.z + left.elements[13] * right.w;
+        float z = left.elements[2] * right.x + left.elements[6] * right.y + left.elements[10] * right.z + left.elements[14] * right.w;
+        float w = left.elements[3] * right.x + left.elements[7] * right.y + left.elements[11] * right.z + left.elements[15] * right.w;
+
+        dest.x = x;
+        dest.y = y;
+        dest.z = z;
+        dest.w = w;
+
+        return dest;
+    }
+
+    
     public static Matrix4f projection() {
         return projection(DISPLAY_WIDTH, DISPLAY_HEIGHT, FOV, NEAR_PLANE, FAR_PLANE);
     }

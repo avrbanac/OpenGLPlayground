@@ -5,7 +5,7 @@ package hr.avrbanac.openglplayground;
  * Single place to hold all graphic globals.
  * 
  * @author avrbanac
- * @version 1.0.14
+ * @version 1.0.15
  */
 public class Globals {
     public static final int DISPLAY_WIDTH           = 1280;
@@ -32,6 +32,10 @@ public class Globals {
     public static final String TEXTURE_CUBE_EXT     = ".png";
     
     public static final Boolean FIX_SKYBOX_SEAMS    = false;
+    public static final Boolean MOUSE_Y_INVERT      = false;
+    
+    public static final int MOUSE_PICKER_RECURSION_CAP  = 200;
+    public static final float MOUSE_RAY_RANGE           = 600;  
     
     public static final float FOV                   = 70f;
     public static final float NEAR_PLANE            = 0.1f;

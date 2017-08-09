@@ -1,6 +1,8 @@
 
 package hr.avrbanac.openglplayground.inputs;
 
+import static hr.avrbanac.openglplayground.Globals.DISPLAY_HEIGHT;
+import static hr.avrbanac.openglplayground.Globals.MOUSE_Y_INVERT;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 
 
@@ -24,11 +26,13 @@ public class MousePosHandler extends GLFWCursorPosCallback {
     
     @Override
     public void invoke(long window, double xpos, double ypos) {
+        int yCorrected = MOUSE_Y_INVERT ? (int)ypos : DISPLAY_HEIGHT - (int)ypos;
+        
         mouseDX += (int)xpos - mouseX;
-        mouseDY += (int)ypos - mouseY;
+        mouseDY += yCorrected - mouseY;
         
         mouseX = (int)xpos;
-        mouseY = (int)ypos;
+        mouseY = yCorrected;
     }
 
     public static int getX() {

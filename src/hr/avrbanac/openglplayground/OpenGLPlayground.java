@@ -20,6 +20,7 @@ import hr.avrbanac.openglplayground.textures.ModelTexture;
 import hr.avrbanac.openglplayground.textures.TerrainTexture;
 import hr.avrbanac.openglplayground.textures.TerrainTexturePack;
 import hr.avrbanac.openglplayground.terrains.Terrain;
+import hr.avrbanac.openglplayground.utils.MousePicker;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -31,7 +32,7 @@ import org.lwjgl.glfw.GLFWErrorCallback;
  * Main class with application point of entry.
  * 
  * @author avrbanac
- * @version 1.0.14
+ * @version 1.0.15
  */
 public class OpenGLPlayground implements Runnable {
 
@@ -171,18 +172,18 @@ public class OpenGLPlayground implements Runnable {
         
         LampStand lamp1 = new LampStand(lamp, new Vector3f(184, -4.7f, -293), 0, 0, 0, 1, new Vector3f(2, 0, 0));
         LampStand lamp2 = new LampStand(lamp, new Vector3f(370, 4.2f, -300), 0, 0, 0, 1, new Vector3f(0, 2, 2));
-        LampStand lamp3 = new LampStand(lamp, new Vector3f(293, -6.8f, -305), 0, 0, 0, 1, new Vector3f(2, 2, 0));
+        //LampStand lamp3 = new LampStand(lamp, new Vector3f(293, -6.8f, -305), 0, 0, 0, 1, new Vector3f(2, 2, 0));
         
         entities.add(lamp1);
         entities.add(lamp2);
-        entities.add(lamp3);
+        //entities.add(lamp3);
         
         List<Light> lights = new ArrayList<>();
         // "sun" with no attenuation; lower brightness
         lights.add(new Light(new Vector3f(0,1000, -7000), new Vector3f(0.4f, 0.4f, 0.4f)));
         lights.add(lamp1.getLampLight());
         lights.add(lamp2.getLampLight());
-        lights.add(lamp3.getLampLight());
+        //lights.add(lamp3.getLampLight());
         
         MasterRenderer renderer = new MasterRenderer(dm.getWidth(), dm.getHeight(), Globals.FOV, loader);
         
@@ -195,6 +196,13 @@ public class OpenGLPlayground implements Runnable {
         
         GuiRenderer guiRenderer = new GuiRenderer(loader);
         
+        // instead of terrain it is possible to add support for multiple terrains (Terrain[])
+        MousePicker picker = new MousePicker (camera,renderer.getProjectionMatrix(), terrain1);
+   
+        LampStand mouseLamp = new LampStand(lamp, player.getPosition(), 0, 0, 0, 1, new Vector3f(2, 0, 2));
+        entities.add(mouseLamp);
+        lights.add(mouseLamp.getLampLight());
+        
         while(isRunning) {
             //entity.increasePosition(0, 0, -0.1f);
             //entity.increaseRotation(0, 1, 0);
@@ -203,10 +211,19 @@ public class OpenGLPlayground implements Runnable {
             // calculate which terrain player is standing on
             player.move(terrain1);
             
+            picker.update();
+            Vector3f terrainPoint = picker.getCurrentTerrainPoint();
+            if (terrainPoint != null) {
+                mouseLamp.setPosition(terrainPoint);
+                mouseLamp.getLampLight().setPosition(new Vector3f(terrainPoint.x, terrainPoint.y+20f, terrainPoint.z));
+            }
+
             renderer.processEntity(player);
             renderer.processTerrain(terrain1);
             
             entities.forEach(renderer::processEntity);
+            
+            
             
             renderer.render(lights, camera);
             guiRenderer.render(guis);

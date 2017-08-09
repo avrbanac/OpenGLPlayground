@@ -6,13 +6,25 @@ All Notable changes to `OpenGL Playground` will be documented in this file.
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
 ## [Unreleased]
+- mouse picking problem: if ray has more than one point of intersection with terrain
 - Something more advance
-- SKYBOX!!!
+- rewrite Matrix4f and Vector3f class (lwjgl src)
+
+## [1.0.15] - 2017-08-09 @avrbanac - mouse picking (ray casting)
+
+### Added
+- Vector4f class
+- MousePicker class for all the mouse ray calculation
+
+### Fixed
+- Matrix4f and Vector3f
+
+### Tested
+- binded 1 lamp entity to mousePointer: works (mouse y axis works in reverse)
 
 ## [1.0.14] - 2017-08-08 @avrbanac - SKYBOX
 
 ### Added
-- 
 - blendFactor in skybox fragment shader so there can be a night / day skybox cycle 
 - skybox renderer
 - skybox shaders
