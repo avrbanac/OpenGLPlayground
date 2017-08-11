@@ -13,6 +13,7 @@ import hr.avrbanac.openglplayground.maths.Vector2f;
 import hr.avrbanac.openglplayground.maths.Vector3f;
 import hr.avrbanac.openglplayground.loaders.ModelLoader;
 import hr.avrbanac.openglplayground.loaders.OBJFileLoader;
+import hr.avrbanac.openglplayground.maths.Vector4f;
 import hr.avrbanac.openglplayground.models.TexturedModel;
 import hr.avrbanac.openglplayground.models.ModelData;
 import hr.avrbanac.openglplayground.renderers.WaterRenderer;
@@ -31,6 +32,8 @@ import java.util.Random;
 import static org.lwjgl.glfw.GLFW.glfwSetErrorCallback;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 
 /**
  * Main class with application point of entry.
@@ -106,6 +109,7 @@ public class OpenGLPlayground implements Runnable {
         grass.getTexture().setTransparency(true);
         grass.getTexture().setShineDamper(10);
         grass.getTexture().setUseFakeLighting(true);
+        
         TexturedModel flower = new TexturedModel(
                 loader.loadToVAO(grassData.getVertices(), grassData.getTextureCoords(), grassData.getNormals(), grassData.getIndices()),
                 new ModelTexture(loader.loadTexture("flower")));
@@ -155,27 +159,11 @@ public class OpenGLPlayground implements Runnable {
         
         Random random = new Random();
         for (int i = 0; i < 100; i++) {
-            entities.add(new Entity(
-                    tree1, 
-                    randomPos3f(random, terrain1),
-                    0, 0, 0, 3));
-            entities.add(new Entity(
-                    tree2, 
-                    randomPos3f(random, terrain1),
-                    0, random.nextFloat() * 360, 0, 0.5f));
-            entities.add(new Entity(
-                    grass, 
-                    randomPos3f(random, terrain1),
-                    0, random.nextFloat() * 360, 0, 1));
-            entities.add(new Entity(
-                    fern,
-                    random.nextInt(4),
-                    randomPos3f(random, terrain1),
-                    0, random.nextFloat() * 360, 0, 0.6f));
-            entities.add(new Entity(
-                    flower, 
-                    randomPos3f(random, terrain1),
-                    0, random.nextFloat() * 360, 0, 1f));
+            entities.add(new Entity(tree1, randomPos3f(random, terrain1), 0, 0, 0, 3));
+            entities.add(new Entity(tree2, randomPos3f(random, terrain1), 0, random.nextFloat() * 360, 0, 0.5f));
+            entities.add(new Entity(grass, randomPos3f(random, terrain1), 0, random.nextFloat() * 360, 0, 1));
+            entities.add(new Entity(fern, random.nextInt(4), randomPos3f(random, terrain1), 0, random.nextFloat() * 360, 0, 0.6f));
+            entities.add(new Entity(flower, randomPos3f(random, terrain1), 0, random.nextFloat() * 360, 0, 1f));
         }
         
         LampStand lamp1 = new LampStand(lamp, new Vector3f(184, -4.7f, -293), 0, 0, 0, 1, new Vector3f(2, 0, 0));
@@ -211,16 +199,14 @@ public class OpenGLPlayground implements Runnable {
         entities.add(mouseLamp);
         lights.add(mouseLamp.getLampLight());
         
-        // water
+        // water renderer setup
         WaterShader waterShader = new WaterShader();
-        WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix());
-        List<WaterTile> waters = new ArrayList<>();
-        waters.add(new WaterTile(80, -128, -5));
-        
         WaterFrameBuffers fbos = new WaterFrameBuffers();
-        //as a showcase, fbos will be used to render another part of gui
-        GuiTexture guiFbo = new GuiTexture(fbos.getReflectionTexture(), new Vector2f(-0.7f, 0.7f), new Vector2f(0.25f, 0.25f));
-        guis.add(guiFbo);
+        WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix(), fbos);
+        List<WaterTile> waters = new ArrayList<>();
+        WaterTile water = new WaterTile(80, -128, -5);
+        waters.add(water);
+        
         
         while(isRunning) {
             camera.move();
@@ -230,21 +216,36 @@ public class OpenGLPlayground implements Runnable {
             
             // mouse picker
             picker.update();
-            //Vector3f terrainPoint = picker.getCurrentTerrainPoint();
-//            if (terrainPoint != null) {
-//                mouseLamp.setPosition(terrainPoint);
-//                mouseLamp.getLampLight().setPosition(new Vector3f(terrainPoint.x, terrainPoint.y+20f, terrainPoint.z));
-//            }
+            Vector3f terrainPoint = picker.getCurrentTerrainPoint();
+            if (terrainPoint != null) {
+                mouseLamp.setPosition(terrainPoint);
+                mouseLamp.getLampLight().setPosition(new Vector3f(terrainPoint.x, terrainPoint.y+20f, terrainPoint.z));
+            }
             //System.out.println((terrainPoint != null ? terrainPoint.toString() : "N/A"));
             
-            // water rendering to FBOs
+            // we are only ever going to use gl_clip_distance[0]
+            GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
+            
+            // render reflection texture
             fbos.bindReflectionFrameBuffer();
-            renderer.renderScene(terrains, entities, lights, camera);
-            // ofc. skip water renderer and gui renderer (those will not reflect in the water)
+            camera.invertHeight(water.getHeight()).invertPitch();
+            renderer.renderScene(terrains, entities, lights, camera, new Vector4f(0, 1, 0, -water.getHeight()));
+            camera.invertHeight(water.getHeight()).invertPitch();
+            
+            // render refraction texture
+            fbos.bindRefractionFrameBuffer();
+            renderer.renderScene(terrains, entities, lights, camera, new Vector4f(0, -1, 0, water.getHeight()));
+            
+            // disable clip culling for scene rendering
+            GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
+            
+            // bind default frame buffer again
             fbos.unbindCurrentFrameBuffer();
             
             // render everything to screen
-            renderer.renderScene(terrains, entities, lights, camera);
+            renderer.renderScene(terrains, entities, lights, camera, new Vector4f(0,1,0,5));
+            
+            // rendering of water and guis are done only for default frame buffer
             waterRenderer.render(waters, camera);
             guiRenderer.render(guis);
             

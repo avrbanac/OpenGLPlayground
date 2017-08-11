@@ -6,13 +6,14 @@ import hr.avrbanac.openglplayground.entities.Camera;
 import hr.avrbanac.openglplayground.entities.Light;
 import hr.avrbanac.openglplayground.maths.Matrix4f;
 import hr.avrbanac.openglplayground.maths.Vector3f;
+import hr.avrbanac.openglplayground.maths.Vector4f;
 import java.util.List;
 
 /**
  * Terrain shader program.
  * 
  * @author avrbanac
- * @version 1.0.10
+ * @version 1.0.16
  */
 public class TerrainShader extends ShaderProgram {
     private int locationTransformationMatrix;
@@ -30,6 +31,7 @@ public class TerrainShader extends ShaderProgram {
     private int locationGTexture;
     private int locationBTexture;
     private int locationBlendMap;
+    private int locationClipPlane;
     
     public TerrainShader() {
         super(TERRAIN_VERTEX_FILE, TERRAIN_FRAGMENT_FILE);
@@ -58,6 +60,9 @@ public class TerrainShader extends ShaderProgram {
         locationBTexture                = super.getUniformLocation("bTexture");
         locationBlendMap                = super.getUniformLocation("blendMap");
         
+        // clip plane
+        locationClipPlane               = super.getUniformLocation("clipPlane");
+        
         //this can be done in vertex shader using inverse of viewMatrix if GLSL version supports it
         locationViewMatrixInverse       = super.getUniformLocation("viewMatrixInv");
         
@@ -70,6 +75,10 @@ public class TerrainShader extends ShaderProgram {
             locationLightColor[i]       = super.getUniformLocation("lightColor[" + i + "]");
             locationAttenuation[i]      = super.getUniformLocation("attenuation[" + i + "]");
         }
+    }
+    
+    public void loadClipPlane(Vector4f clipPlane) {
+        super.load4DVector(locationClipPlane, clipPlane);
     }
     
     public void loadTransformationMatrix(Matrix4f matrix) {

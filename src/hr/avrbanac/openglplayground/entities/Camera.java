@@ -12,7 +12,7 @@ import static org.lwjgl.glfw.GLFW.*;
  * Camera representation class.
  * 
  * @author avrbanac
- * @version 1.0.15
+ * @version 1.0.16
  */
 public class Camera {
     
@@ -67,6 +67,21 @@ public class Camera {
     
     public void setPitch(float pitch) {
         this.pitch = pitch;
+    }
+    
+    public Camera invertPitch() {
+        this.pitch = -pitch;
+        return this;
+    }
+    
+    public Camera invertHeight(float waterHeight) {
+        float cameraHeight = this.position.y;
+        
+        this.position.y = (cameraHeight > waterHeight)
+                ? cameraHeight - 2 * (cameraHeight - waterHeight)
+                : cameraHeight + 2 * (waterHeight - cameraHeight);
+        
+        return this;
     }
     
     private void calculateCameraPosition(float horizontalDistance, float verticalDistance) {

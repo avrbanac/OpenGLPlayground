@@ -7,6 +7,7 @@ import hr.avrbanac.openglplayground.entities.Light;
 import hr.avrbanac.openglplayground.maths.Matrix4f;
 import hr.avrbanac.openglplayground.maths.Vector2f;
 import hr.avrbanac.openglplayground.maths.Vector3f;
+import hr.avrbanac.openglplayground.maths.Vector4f;
 import java.util.List;
 
 /**
@@ -30,6 +31,7 @@ public class StaticShader extends ShaderProgram {
     private int locationSkyColor;
     private int locationNumberOfRows;
     private int locationOffset;
+    private int locationClipPlane;
     
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -59,6 +61,9 @@ public class StaticShader extends ShaderProgram {
         //this can be done in vertex shader using inverse of viewMatrix if GLSL version supports it
         locationViewMatrixInverse       = super.getUniformLocation("viewMatrixInv");
         
+        // for clip plane(s)
+        locationClipPlane               = super.getUniformLocation("clipPlane");
+        
         // this part changed since we have arrays now instead of one light source
         locationLightPosition           = new int[MAX_LIGHTS_NUMBER];
         locationLightColor              = new int[MAX_LIGHTS_NUMBER];
@@ -68,6 +73,10 @@ public class StaticShader extends ShaderProgram {
             locationLightColor[i]       = super.getUniformLocation("lightColor[" + i + "]");
             locationAttenuation[i]      = super.getUniformLocation("attenuation[" + i + "]");
         }
+    }
+    
+    public void loadClipPlane(Vector4f clipPlane) {
+        super.load4DVector(locationClipPlane, clipPlane);
     }
     
     public void loadTransformationMatrix(Matrix4f matrix) {

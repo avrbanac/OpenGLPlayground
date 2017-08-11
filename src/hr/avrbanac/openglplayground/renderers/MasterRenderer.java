@@ -7,6 +7,7 @@ import hr.avrbanac.openglplayground.entities.Entity;
 import hr.avrbanac.openglplayground.entities.Light;
 import hr.avrbanac.openglplayground.loaders.ModelLoader;
 import hr.avrbanac.openglplayground.maths.Matrix4f;
+import hr.avrbanac.openglplayground.maths.Vector4f;
 import hr.avrbanac.openglplayground.models.TexturedModel;
 import hr.avrbanac.openglplayground.shaders.StaticShader;
 import hr.avrbanac.openglplayground.shaders.TerrainShader;
@@ -25,7 +26,7 @@ import org.lwjgl.opengl.GL11;
  * optimization will be used while rendering terrain.
  * 
  * @author avrbanac
- * @version 1.0.10
+ * @version 1.0.16
  */
 public class MasterRenderer {
     private final StaticShader shader;
@@ -54,7 +55,7 @@ public class MasterRenderer {
         skyboxRenderer  = new SkyboxRenderer(loader, projectionMatrix);
     }
     
-    public void renderScene(List<Terrain> terrains, List<Entity> entities, List<Light> lights, Camera camera) {
+    public void renderScene(List<Terrain> terrains, List<Entity> entities, List<Light> lights, Camera camera, Vector4f clipPlane) {
         terrains.forEach((terrain) -> {
             processTerrain(terrain);
         });
@@ -62,7 +63,7 @@ public class MasterRenderer {
             processEntity(entity);
         });
         
-        render(lights, camera);
+        render(lights, camera, clipPlane);
     }
     
     public static void enableCulling() {
@@ -80,10 +81,11 @@ public class MasterRenderer {
         return projectionMatrix;
     }
     
-    public void render(List<Light> lights, Camera camera) {
+    public void render(List<Light> lights, Camera camera, Vector4f clipPlane) {
         prepare();
         
         shader.start();
+        shader.loadClipPlane(clipPlane);
         shader.loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
         shader.loadLights(lights);
         shader.loadViewMatrix(camera);
@@ -91,6 +93,7 @@ public class MasterRenderer {
         shader.stop();
         
         terrainShader.start();
+        terrainShader.loadClipPlane(clipPlane);
         terrainShader.loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
         terrainShader.loadLights(lights);
         terrainShader.loadViewMatrix(camera);

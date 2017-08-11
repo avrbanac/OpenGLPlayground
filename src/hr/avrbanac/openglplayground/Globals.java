@@ -5,7 +5,7 @@ package hr.avrbanac.openglplayground;
  * Single place to hold all graphic globals.
  * 
  * @author avrbanac
- * @version 1.0.15
+ * @version 1.0.16
  */
 public class Globals {
     public static final int DISPLAY_WIDTH           = 1280;
@@ -32,6 +32,7 @@ public class Globals {
     public static final String HEIGHT_MAP_FOL       = "res/textures/";
     public static final String TEXTURE_CUBE_FILE    = "res/textures/skybox/";
     public static final String TEXTURE_CUBE_EXT     = ".png";
+    public static final String DUDV_MAP             = "waterDuDv";
     
     public static final Boolean FIX_SKYBOX_SEAMS    = false;
     public static final Boolean MOUSE_Y_INVERT      = false;
@@ -55,6 +56,7 @@ public class Globals {
     public static final int WATER_REFLECTION_HEIGHT = 180;
     public static final int WATER_REFRACTION_WIDTH  = 1280;
     public static final int WATER_REFRACTION_HEIGHT = 720;
+    public static final float WATER_WAVE_SPEED      = 0.03f;
     
     public static final float SKY_RED               = 0.45f;
     public static final float SKY_GREEN             = 0.53f;

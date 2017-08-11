@@ -4,6 +4,7 @@ package hr.avrbanac.openglplayground.shaders;
 import hr.avrbanac.openglplayground.maths.Matrix4f;
 import hr.avrbanac.openglplayground.maths.Vector2f;
 import hr.avrbanac.openglplayground.maths.Vector3f;
+import hr.avrbanac.openglplayground.maths.Vector4f;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -79,6 +80,10 @@ public abstract class ShaderProgram {
     
     protected void loadFloat(int location, float value) {
         GL20.glUniform1f(location, value);
+    }
+    
+    protected void load4DVector(int location, Vector4f vector) {
+        GL20.glUniform4f(location, vector.x, vector.y, vector.z, vector.w);
     }
     
     protected void load3DVector(int location, Vector3f vector) {

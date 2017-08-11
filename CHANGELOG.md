@@ -9,11 +9,13 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - mouse picking problem: if ray has more than one point of intersection with terrain
 - Something more advance
 - rewrite Matrix4f and Vector3f class (lwjgl src)
-- clipping planes for water rendering optimization 
+- fresnel effect to water
 
-## [1.0.16] - 2017-08-11 - FBO rendering (preset for water rendering)
+## [1.0.16] - 2017-08-11 - FBO rendering, clip plane calculation, DuDv maps
 
 ### Added
+- DuDv map texturing with moveFactorOffset changing over time
+- gl_clipDistance[0] usage for reflection and refraction rendering
 - Frame Buffer Object rendering (to get reflection and refraction textures)
 - WaterRenderer class
 - water vertex & fragment shader
@@ -21,6 +23,12 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - WaterTile surfice class
 
 ### Fixed
+- main loop
+- MasterRenderer
+- Camera can now invert pitch (needed for reflection calculation)
+- TerrainShader and terrainVertex shader now both address clipPlane changes
+- StaticShader and ShaderProgram now both address clipPlane changes
+- shaderVertex now uses gl_clipDistance[0]
 - changed code structure again
 
 ## [1.0.15] - 2017-08-09 @avrbanac - mouse picking (ray casting)

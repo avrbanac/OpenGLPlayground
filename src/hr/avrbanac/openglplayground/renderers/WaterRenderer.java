@@ -1,7 +1,8 @@
 
 package hr.avrbanac.openglplayground.renderers;
 
-import static hr.avrbanac.openglplayground.Globals.WATER_TILE_SIZE;
+import static hr.avrbanac.openglplayground.Globals.*;
+import hr.avrbanac.openglplayground.display.DisplayManager;
 import hr.avrbanac.openglplayground.entities.Camera;
 import hr.avrbanac.openglplayground.loaders.ModelLoader;
 import hr.avrbanac.openglplayground.maths.Matrix4f;
@@ -9,8 +10,10 @@ import hr.avrbanac.openglplayground.maths.Vector3f;
 import hr.avrbanac.openglplayground.models.RawModel;
 import hr.avrbanac.openglplayground.shaders.WaterShader;
 import hr.avrbanac.openglplayground.surfaces.WaterTile;
+import hr.avrbanac.openglplayground.utils.WaterFrameBuffers;
 import java.util.List;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
@@ -22,10 +25,17 @@ import org.lwjgl.opengl.GL30;
 public class WaterRenderer {
     private RawModel quad;
     private final WaterShader shader;
+    private WaterFrameBuffers fbos;
+    private final int dudvTexture;
+    private float moveFactorOffset = 0;
  
-    public WaterRenderer(ModelLoader loader, WaterShader shader, Matrix4f projectionMatrix) {
+    public WaterRenderer(ModelLoader loader, WaterShader shader, Matrix4f projectionMatrix, WaterFrameBuffers fbos) {
         this.shader = shader;
+        this.fbos = fbos;
+        this.dudvTexture = loader.loadTexture(DUDV_MAP);
+        
         shader.start();
+        shader.connectTextureUnits();
         shader.loadProjectionMatrix(projectionMatrix);
         shader.stop();
         setUpVAO(loader);
@@ -46,8 +56,18 @@ public class WaterRenderer {
     private void prepareRender(Camera camera){
         shader.start();
         shader.loadViewMatrix(camera);
+        moveFactorOffset += WATER_WAVE_SPEED * DisplayManager.getFrameTimeSeconds();
+        moveFactorOffset %= 1;
+        shader.loadMoveFactorOffset(moveFactorOffset);
         GL30.glBindVertexArray(quad.getVaoID());
         GL20.glEnableVertexAttribArray(0);
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, fbos.getReflectionTexture());
+        GL13.glActiveTexture(GL13.GL_TEXTURE1);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, fbos.getRefractionTexture());
+        GL13.glActiveTexture(GL13.GL_TEXTURE2);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, dudvTexture);
+        
     }
      
     private void unbind(){

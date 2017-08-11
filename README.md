@@ -55,7 +55,10 @@ LWJGL library used for this project is in version 3.
 * light attenuation
 * skybox (fog fix, multiple skyboxing: day/night cycle)
 * mouse picking (ray cast)
-* water (FBO rendering for reflection and refraction textures)
+* FBO rendering for reflection and refraction textures
+* clip plane distancing
+* Du/Dv maps for rippling effect
+* water surface distortion effect (moveFactorOffset changing over time)
 
 ## Copyright
 
