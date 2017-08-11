@@ -5,7 +5,7 @@ import hr.avrbanac.openglplayground.maths.Matrix4f;
 import hr.avrbanac.openglplayground.maths.Vector3f;
 import hr.avrbanac.openglplayground.models.RawModel;
 import hr.avrbanac.openglplayground.shaders.TerrainShader;
-import hr.avrbanac.openglplayground.terrains.Terrain;
+import hr.avrbanac.openglplayground.surfaces.Terrain;
 import hr.avrbanac.openglplayground.textures.TerrainTexturePack;
 import java.util.List;
 import org.lwjgl.opengl.GL11;

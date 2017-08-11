@@ -1,5 +1,5 @@
 
-package hr.avrbanac.openglplayground.terrains;
+package hr.avrbanac.openglplayground.surfaces;
 
 import static hr.avrbanac.openglplayground.Globals.*;
 import hr.avrbanac.openglplayground.models.RawModel;

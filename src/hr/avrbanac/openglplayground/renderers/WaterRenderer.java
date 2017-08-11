@@ -1,0 +1,64 @@
+
+package hr.avrbanac.openglplayground.renderers;
+
+import static hr.avrbanac.openglplayground.Globals.WATER_TILE_SIZE;
+import hr.avrbanac.openglplayground.entities.Camera;
+import hr.avrbanac.openglplayground.loaders.ModelLoader;
+import hr.avrbanac.openglplayground.maths.Matrix4f;
+import hr.avrbanac.openglplayground.maths.Vector3f;
+import hr.avrbanac.openglplayground.models.RawModel;
+import hr.avrbanac.openglplayground.shaders.WaterShader;
+import hr.avrbanac.openglplayground.surfaces.WaterTile;
+import java.util.List;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
+
+/**
+ *
+ * @author avrbanac
+ * @version 1.0.16
+ */
+public class WaterRenderer {
+    private RawModel quad;
+    private final WaterShader shader;
+ 
+    public WaterRenderer(ModelLoader loader, WaterShader shader, Matrix4f projectionMatrix) {
+        this.shader = shader;
+        shader.start();
+        shader.loadProjectionMatrix(projectionMatrix);
+        shader.stop();
+        setUpVAO(loader);
+    }
+ 
+    public void render(List<WaterTile> water, Camera camera) {
+        prepareRender(camera);  
+        for (WaterTile tile : water) {
+            Matrix4f modelMatrix = Matrix4f.transformation(
+                    new Vector3f(tile.getX(), tile.getHeight(), tile.getZ()), 0, 0, 0,
+                    WATER_TILE_SIZE);
+            shader.loadModelMatrix(modelMatrix);
+            GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, quad.getVertexCount());
+        }
+        unbind();
+    }
+     
+    private void prepareRender(Camera camera){
+        shader.start();
+        shader.loadViewMatrix(camera);
+        GL30.glBindVertexArray(quad.getVaoID());
+        GL20.glEnableVertexAttribArray(0);
+    }
+     
+    private void unbind(){
+        GL20.glDisableVertexAttribArray(0);
+        GL30.glBindVertexArray(0);
+        shader.stop();
+    }
+ 
+    private void setUpVAO(ModelLoader loader) {
+        // Just x and z vectex positions here, y is set to 0 in v.shader
+        float[] vertices = { -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1 };
+        quad = loader.loadToVAO(vertices, 2);
+    }
+}

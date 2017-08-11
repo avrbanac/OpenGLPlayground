@@ -10,7 +10,7 @@ import hr.avrbanac.openglplayground.maths.Matrix4f;
 import hr.avrbanac.openglplayground.models.TexturedModel;
 import hr.avrbanac.openglplayground.shaders.StaticShader;
 import hr.avrbanac.openglplayground.shaders.TerrainShader;
-import hr.avrbanac.openglplayground.terrains.Terrain;
+import hr.avrbanac.openglplayground.surfaces.Terrain;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -9,6 +9,19 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - mouse picking problem: if ray has more than one point of intersection with terrain
 - Something more advance
 - rewrite Matrix4f and Vector3f class (lwjgl src)
+- clipping planes for water rendering optimization 
+
+## [1.0.16] - 2017-08-11 - FBO rendering (preset for water rendering)
+
+### Added
+- Frame Buffer Object rendering (to get reflection and refraction textures)
+- WaterRenderer class
+- water vertex & fragment shader
+- WaterShader program class
+- WaterTile surfice class
+
+### Fixed
+- changed code structure again
 
 ## [1.0.15] - 2017-08-09 @avrbanac - mouse picking (ray casting)
 

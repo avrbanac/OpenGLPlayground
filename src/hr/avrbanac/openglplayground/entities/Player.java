@@ -10,7 +10,7 @@ import hr.avrbanac.openglplayground.display.DisplayManager;
 import hr.avrbanac.openglplayground.inputs.KeyboardHandler;
 import hr.avrbanac.openglplayground.maths.Vector3f;
 import hr.avrbanac.openglplayground.models.TexturedModel;
-import hr.avrbanac.openglplayground.terrains.Terrain;
+import hr.avrbanac.openglplayground.surfaces.Terrain;
 import static org.lwjgl.glfw.GLFW.*;
 
 /**

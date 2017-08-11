@@ -8,7 +8,7 @@ import hr.avrbanac.openglplayground.maths.Matrix4f;
 import hr.avrbanac.openglplayground.maths.Vector2f;
 import hr.avrbanac.openglplayground.maths.Vector3f;
 import hr.avrbanac.openglplayground.maths.Vector4f;
-import hr.avrbanac.openglplayground.terrains.Terrain;
+import hr.avrbanac.openglplayground.surfaces.Terrain;
 
 /**
  *

@@ -20,6 +20,8 @@ public class Globals {
     public static final String GUI_FRAGMENT_FILE        = "res/shaders/guiFragment.glsl";
     public static final String SKYBOX_VERTEX_FILE       = "res/shaders/skyboxVertex.glsl";
     public static final String SKYBOX_FRAGMENT_FILE     = "res/shaders/skyboxFragment.glsl";
+    public static final String WATER_VERTEX_FILE        = "res/shaders/waterVertex.glsl";
+    public static final String WATER_FRAGMENT_FILE      = "res/shaders/waterFragment.glsl";
     
     public static final String TEXTURE_TYPE         = "PNG";
     public static final String TEXTURE_FOLDER       = "res/textures/";
@@ -43,10 +45,16 @@ public class Globals {
     
     public static final float MAX_PIXEL_COLOR       = 256 * 256 * 256;
     
+    public static final float WATER_TILE_SIZE       = 60;
     public static final float TERRAIN_SIZE          = 800;
     public static final float TERRAIN_MAX_HEIGHT    = 40;
     public static final float SKYBOX_SIZE           = 500;
     public static final float SKYBOX_ROT_SPEED      = 1f;
+    
+    public static final int WATER_REFLECTION_WIDTH  = 320;
+    public static final int WATER_REFLECTION_HEIGHT = 180;
+    public static final int WATER_REFRACTION_WIDTH  = 1280;
+    public static final int WATER_REFRACTION_HEIGHT = 720;
     
     public static final float SKY_RED               = 0.45f;
     public static final float SKY_GREEN             = 0.53f;

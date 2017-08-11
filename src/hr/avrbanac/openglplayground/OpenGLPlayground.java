@@ -15,12 +15,16 @@ import hr.avrbanac.openglplayground.loaders.ModelLoader;
 import hr.avrbanac.openglplayground.loaders.OBJFileLoader;
 import hr.avrbanac.openglplayground.models.TexturedModel;
 import hr.avrbanac.openglplayground.models.ModelData;
+import hr.avrbanac.openglplayground.renderers.WaterRenderer;
+import hr.avrbanac.openglplayground.shaders.WaterShader;
 import hr.avrbanac.openglplayground.textures.GuiTexture;
 import hr.avrbanac.openglplayground.textures.ModelTexture;
 import hr.avrbanac.openglplayground.textures.TerrainTexture;
 import hr.avrbanac.openglplayground.textures.TerrainTexturePack;
-import hr.avrbanac.openglplayground.terrains.Terrain;
+import hr.avrbanac.openglplayground.surfaces.Terrain;
+import hr.avrbanac.openglplayground.surfaces.WaterTile;
 import hr.avrbanac.openglplayground.utils.MousePicker;
+import hr.avrbanac.openglplayground.utils.WaterFrameBuffers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -207,24 +211,41 @@ public class OpenGLPlayground implements Runnable {
         entities.add(mouseLamp);
         lights.add(mouseLamp.getLampLight());
         
+        // water
+        WaterShader waterShader = new WaterShader();
+        WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix());
+        List<WaterTile> waters = new ArrayList<>();
+        waters.add(new WaterTile(80, -128, -5));
+        
+        WaterFrameBuffers fbos = new WaterFrameBuffers();
+        //as a showcase, fbos will be used to render another part of gui
+        GuiTexture guiFbo = new GuiTexture(fbos.getReflectionTexture(), new Vector2f(-0.7f, 0.7f), new Vector2f(0.25f, 0.25f));
+        guis.add(guiFbo);
+        
         while(isRunning) {
-            //entity.increasePosition(0, 0, -0.1f);
-            //entity.increaseRotation(0, 1, 0);
             camera.move();
             
-            // calculate which terrain player is standing on
+            // calculate which terrain player is standing on (if multiple) 
             player.move(terrain1);
             
             // mouse picker
             picker.update();
-            Vector3f terrainPoint = picker.getCurrentTerrainPoint();
-            if (terrainPoint != null) {
-                mouseLamp.setPosition(terrainPoint);
-                mouseLamp.getLampLight().setPosition(new Vector3f(terrainPoint.x, terrainPoint.y+20f, terrainPoint.z));
-            }
+            //Vector3f terrainPoint = picker.getCurrentTerrainPoint();
+//            if (terrainPoint != null) {
+//                mouseLamp.setPosition(terrainPoint);
+//                mouseLamp.getLampLight().setPosition(new Vector3f(terrainPoint.x, terrainPoint.y+20f, terrainPoint.z));
+//            }
+            //System.out.println((terrainPoint != null ? terrainPoint.toString() : "N/A"));
             
+            // water rendering to FBOs
+            fbos.bindReflectionFrameBuffer();
             renderer.renderScene(terrains, entities, lights, camera);
+            // ofc. skip water renderer and gui renderer (those will not reflect in the water)
+            fbos.unbindCurrentFrameBuffer();
             
+            // render everything to screen
+            renderer.renderScene(terrains, entities, lights, camera);
+            waterRenderer.render(waters, camera);
             guiRenderer.render(guis);
             
             dm.renderDisplay();
@@ -235,6 +256,12 @@ public class OpenGLPlayground implements Runnable {
                 isRunning = false;
             }
         }
+        // clean up water frame buffers
+        fbos.cleanUp();
+        
+        // clean up water shader
+        waterShader.cleanUp();
+        
         // clean up gui shaders
         guiRenderer.cleanUp();
         
