@@ -11,6 +11,33 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - rewrite Matrix4f and Vector3f class (lwjgl src)
 - fresnel effect to water
 
+## [1.0.17] - 2017-08-31 - Fresnel effect, normal map and soft edges
+
+### Added
+- normal map texture added
+- now depth calculation is added so specular highlights are dampened around edges
+- now depth calculation is added so after certain depth point, water is no longer transparent 
+- texture unit 4 for depth map
+- texture unit 3 for normal map
+
+### Fixed
+- waterDuDv map texture fixed
+- in main game loop when rendering reflection clip plane needs to be a bit higher in order to fix occasional edge glitch
+- since normal map now is used for normal calculation this normal can be used for better Fresnel calculation
+- reducing distortion around edges
+- WaterRenderer now loads depth map onto texture unit 4 (fbos.getRefractionDepthTexture)
+- WaterShader now loads depthMap
+- waterFragment now takes depth map as uniform variable
+- main game loop must load light to WaterRenderer (made sun separated from rest of lights)
+- waterVertex shader now takes also light position
+- waterFragment shader now takes also light color uniform
+- WaterRenderer now loads normal map onto texture unit 3, and also takes Light as argument for light loading
+- Globals changes for normal map
+- WaterShader now loads also texture unit 3 onto uniform location for normal map
+- distortion lines in waterFragment.glsl are changed (found better solution)
+- waterFragment now takes newly calculated toCameraVector; reflective and refractive are not mixed 50% each anymore
+- waterVertex and WaterShader now load cameraPosition which is needed for dot product with water norm. vec.
+
 ## [1.0.16] - 2017-08-11 - FBO rendering, clip plane calculation, DuDv maps
 
 ### Added

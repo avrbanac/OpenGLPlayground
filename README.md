@@ -30,7 +30,7 @@ For this project to work, it is important to use a version that enables the use 
 
 ~Application is currently under construction. Target version for something that works is 1.0.0.~
 
-Application is currently in version 1.0.16.
+Application is currently in version 1.0.17.
 
 LWJGL library used for this project is in version 3.
 
@@ -59,6 +59,10 @@ LWJGL library used for this project is in version 3.
 * clip plane distancing
 * Du/Dv maps for rippling effect
 * water surface distortion effect (moveFactorOffset changing over time)
+* Fresnel effect
+* water normal map
+* soft edges
+* water transparency depth calculation
 
 ## Copyright
 

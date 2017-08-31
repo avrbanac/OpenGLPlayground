@@ -39,7 +39,7 @@ import org.lwjgl.opengl.GL30;
  * Main class with application point of entry.
  * 
  * @author avrbanac
- * @version 1.0.15
+ * @version 1.0.17
  */
 public class OpenGLPlayground implements Runnable {
 
@@ -174,9 +174,11 @@ public class OpenGLPlayground implements Runnable {
         entities.add(lamp2);
         //entities.add(lamp3);
         
+        Light sun = new Light(new Vector3f(0,1000, -7000), new Vector3f(0.4f, 0.4f, 0.4f));
+        
         List<Light> lights = new ArrayList<>();
         // "sun" with no attenuation; lower brightness
-        lights.add(new Light(new Vector3f(0,1000, -7000), new Vector3f(0.4f, 0.4f, 0.4f)));
+        lights.add(sun);
         lights.add(lamp1.getLampLight());
         lights.add(lamp2.getLampLight());
         //lights.add(lamp3.getLampLight());
@@ -229,7 +231,7 @@ public class OpenGLPlayground implements Runnable {
             // render reflection texture
             fbos.bindReflectionFrameBuffer();
             camera.invertHeight(water.getHeight()).invertPitch();
-            renderer.renderScene(terrains, entities, lights, camera, new Vector4f(0, 1, 0, -water.getHeight()));
+            renderer.renderScene(terrains, entities, lights, camera, new Vector4f(0, 1, 0, -water.getHeight() + 0.5f)); // edge fix 0.5f
             camera.invertHeight(water.getHeight()).invertPitch();
             
             // render refraction texture
@@ -246,7 +248,7 @@ public class OpenGLPlayground implements Runnable {
             renderer.renderScene(terrains, entities, lights, camera, new Vector4f(0,1,0,5));
             
             // rendering of water and guis are done only for default frame buffer
-            waterRenderer.render(waters, camera);
+            waterRenderer.render(waters, camera, sun);
             guiRenderer.render(guis);
             
             dm.renderDisplay();

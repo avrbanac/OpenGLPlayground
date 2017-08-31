@@ -33,6 +33,7 @@ public class Globals {
     public static final String TEXTURE_CUBE_FILE    = "res/textures/skybox/";
     public static final String TEXTURE_CUBE_EXT     = ".png";
     public static final String DUDV_MAP             = "waterDuDv";
+    public static final String NORMAL_WATER_MAP     = "normalMap";
     
     public static final Boolean FIX_SKYBOX_SEAMS    = false;
     public static final Boolean MOUSE_Y_INVERT      = false;
