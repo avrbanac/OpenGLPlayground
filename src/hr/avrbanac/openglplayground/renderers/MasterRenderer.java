@@ -9,6 +9,7 @@ import hr.avrbanac.openglplayground.loaders.ModelLoader;
 import hr.avrbanac.openglplayground.maths.Matrix4f;
 import hr.avrbanac.openglplayground.maths.Vector4f;
 import hr.avrbanac.openglplayground.models.TexturedModel;
+import hr.avrbanac.openglplayground.normalMappingRenderer.NormalMappingRenderer;
 import hr.avrbanac.openglplayground.shaders.StaticShader;
 import hr.avrbanac.openglplayground.shaders.TerrainShader;
 import hr.avrbanac.openglplayground.surfaces.Terrain;
@@ -26,7 +27,7 @@ import org.lwjgl.opengl.GL11;
  * optimization will be used while rendering terrain.
  * 
  * @author avrbanac
- * @version 1.0.16
+ * @version 1.0.18
  */
 public class MasterRenderer {
     private final StaticShader shader;
@@ -40,6 +41,9 @@ public class MasterRenderer {
     private final List<Terrain> terrains = new ArrayList<>();
     
     private final SkyboxRenderer skyboxRenderer;
+    
+    private final NormalMappingRenderer normalMapRenderer;
+    private final Map<TexturedModel, List<Entity>> nmEntities = new HashMap<>();
 
     public MasterRenderer(int width, int height, float fov, ModelLoader loader) {
         enableCulling();
@@ -53,14 +57,26 @@ public class MasterRenderer {
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
         
         skyboxRenderer  = new SkyboxRenderer(loader, projectionMatrix);
+        
+        normalMapRenderer = new NormalMappingRenderer(projectionMatrix);
     }
     
-    public void renderScene(List<Terrain> terrains, List<Entity> entities, List<Light> lights, Camera camera, Vector4f clipPlane) {
+    public void renderScene(
+            List<Terrain> terrains,
+            List<Entity> entities,
+            List<Entity> normalEntities,
+            List<Light> lights,
+            Camera camera,
+            Vector4f clipPlane) {
+        
         terrains.forEach((terrain) -> {
             processTerrain(terrain);
         });
         entities.forEach((entity) -> {
             processEntity(entity);
+        });
+        normalEntities.forEach((entity) -> {
+            processNMEntity(entity);
         });
         
         render(lights, camera, clipPlane);
@@ -92,6 +108,7 @@ public class MasterRenderer {
         renderer.render(entities);
         shader.stop();
         
+        normalMapRenderer.render(nmEntities, clipPlane, lights, camera);
         terrainShader.start();
         terrainShader.loadClipPlane(clipPlane);
         terrainShader.loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
@@ -104,6 +121,7 @@ public class MasterRenderer {
         // clear hashmap or else it would build up with each render call
         entities.clear();
         terrains.clear();
+        nmEntities.clear();
     }
     
     public void processEntity(Entity entity) {
@@ -115,6 +133,18 @@ public class MasterRenderer {
             List<Entity> newBatch = new ArrayList<>();
             newBatch.add(entity);
             entities.put(entityModel, newBatch);
+        }
+    }
+    
+    public void processNMEntity(Entity entity) {
+        TexturedModel entityModel = entity.getModel();
+        List<Entity> batch = nmEntities.get(entityModel);
+        if(batch != null) {
+            batch.add(entity);
+        } else {
+            List<Entity> newBatch = new ArrayList<>();
+            newBatch.add(entity);
+            nmEntities.put(entityModel, newBatch);
         }
     }
     
@@ -134,5 +164,6 @@ public class MasterRenderer {
     public void cleanUp() {
         shader.cleanUp();
         terrainShader.cleanUp();
+        normalMapRenderer.cleanUp();
     }
 }

@@ -9,7 +9,20 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - mouse picking problem: if ray has more than one point of intersection with terrain
 - Something more advance
 - rewrite Matrix4f and Vector3f class (lwjgl src)
-- fresnel effect to water
+
+## [1.0.18] - 2017-09-05 - Normal mapping
+
+### Added
+- new objects and textures
+- new normal vertex and fragment shaders
+- new packages (to keep code separated): normalMappingObjConverter & normal MappingRenderer
+
+### Fixed
+- Globals changed so there are new required global variables
+- ModelLoader changed so it can load tangents to VAO
+- MasterRenderer changed so it can render normal map entities
+- Vector3f added sub method
+- Vextor2f added sub and set methods
 
 ## [1.0.17] - 2017-08-31 - Fresnel effect, normal map and soft edges
 

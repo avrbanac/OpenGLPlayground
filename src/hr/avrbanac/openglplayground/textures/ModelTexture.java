@@ -5,10 +5,11 @@ package hr.avrbanac.openglplayground.textures;
  * Model texture definition class.
  * 
  * @author avrbanac
- * @version 1.0.8
+ * @version 1.0.18
  */
 public class ModelTexture {
     private final int textureID;
+    private int normalMap;
     
     private float shineDamper = 1;
     private float reflectivity = 0;
@@ -69,6 +70,13 @@ public class ModelTexture {
     public void setNumberOfRows(int numberOfRows) {
         this.numberOfRows = numberOfRows;
     }
-    
+
+    public int getNormalMap() {
+        return normalMap;
+    }
+
+    public void setNormalMap(int normalMap) {
+        this.normalMap = normalMap;
+    }
     
 }

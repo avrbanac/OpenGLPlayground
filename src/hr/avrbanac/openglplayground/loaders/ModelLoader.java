@@ -27,7 +27,7 @@ import org.lwjgl.opengl.GL14;
  * Loads a model into memory by storing data into VAO.
  * 
  * @author avrbanac
- * @version 1.0.14
+ * @version 1.0.18
  */
 public class ModelLoader {
     
@@ -44,6 +44,22 @@ public class ModelLoader {
         storeDataInAttributeList(1, 2, textureCoords);
         // in attribute 2 of VAO store normals (for lighting)
         storeDataInAttributeList(2, 3, normals);
+        
+        unbindVAO();
+        
+        return new RawModel(vaoID, indices.length);
+    }
+    
+    public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, float[] tangents, int[] indices) {
+        System.out.println("LOADING TO VAO");
+        int vaoID = createVAO();
+        
+        bindIndicesBuffer(indices);
+        storeDataInAttributeList(0, 3, positions);
+        storeDataInAttributeList(1, 2, textureCoords);
+        storeDataInAttributeList(2, 3, normals);
+        // in attribute 3 of VAO store tangents (normal mapping)
+        storeDataInAttributeList(3, 3, tangents);
         
         unbindVAO();
         

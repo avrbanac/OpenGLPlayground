@@ -16,6 +16,7 @@ import hr.avrbanac.openglplayground.loaders.OBJFileLoader;
 import hr.avrbanac.openglplayground.maths.Vector4f;
 import hr.avrbanac.openglplayground.models.TexturedModel;
 import hr.avrbanac.openglplayground.models.ModelData;
+import hr.avrbanac.openglplayground.normalMappingObjConverter.NormalMappedObjLoader;
 import hr.avrbanac.openglplayground.renderers.WaterRenderer;
 import hr.avrbanac.openglplayground.shaders.WaterShader;
 import hr.avrbanac.openglplayground.textures.GuiTexture;
@@ -39,7 +40,7 @@ import org.lwjgl.opengl.GL30;
  * Main class with application point of entry.
  * 
  * @author avrbanac
- * @version 1.0.17
+ * @version 1.0.18
  */
 public class OpenGLPlayground implements Runnable {
 
@@ -183,6 +184,18 @@ public class OpenGLPlayground implements Runnable {
         lights.add(lamp2.getLampLight());
         //lights.add(lamp3.getLampLight());
         
+        //normal entities
+        List<Entity> normalEntities = new ArrayList<>();
+        
+        TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("barrel", loader),
+                new ModelTexture(loader.loadTexture("barrel")));
+        barrelModel.getTexture().setNormalMap(loader.loadTexture("barrelNormal"));
+        barrelModel.getTexture().setShineDamper(10);
+        barrelModel.getTexture().setReflectivity(0.5f);
+        
+        normalEntities.add(new Entity(barrelModel, new Vector3f(250, 15, -250), 0, 0, 0, 1f));
+        
+        
         MasterRenderer renderer = new MasterRenderer(dm.getWidth(), dm.getHeight(), Globals.FOV, loader);
         
         List<GuiTexture> guis = new ArrayList<>();
@@ -231,12 +244,12 @@ public class OpenGLPlayground implements Runnable {
             // render reflection texture
             fbos.bindReflectionFrameBuffer();
             camera.invertHeight(water.getHeight()).invertPitch();
-            renderer.renderScene(terrains, entities, lights, camera, new Vector4f(0, 1, 0, -water.getHeight() + 0.5f)); // edge fix 0.5f
+            renderer.renderScene(terrains, entities, normalEntities, lights, camera, new Vector4f(0, 1, 0, -water.getHeight() + 0.5f)); // edge fix 0.5f
             camera.invertHeight(water.getHeight()).invertPitch();
             
             // render refraction texture
             fbos.bindRefractionFrameBuffer();
-            renderer.renderScene(terrains, entities, lights, camera, new Vector4f(0, -1, 0, water.getHeight()));
+            renderer.renderScene(terrains, entities, normalEntities, lights, camera, new Vector4f(0, -1, 0, water.getHeight()));
             
             // disable clip culling for scene rendering
             GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
@@ -245,7 +258,7 @@ public class OpenGLPlayground implements Runnable {
             fbos.unbindCurrentFrameBuffer();
             
             // render everything to screen
-            renderer.renderScene(terrains, entities, lights, camera, new Vector4f(0,1,0,5));
+            renderer.renderScene(terrains, entities, normalEntities, lights, camera, new Vector4f(0,1,0,5));
             
             // rendering of water and guis are done only for default frame buffer
             waterRenderer.render(waters, camera, sun);

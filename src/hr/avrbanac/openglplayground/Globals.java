@@ -5,7 +5,7 @@ package hr.avrbanac.openglplayground;
  * Single place to hold all graphic globals.
  * 
  * @author avrbanac
- * @version 1.0.16
+ * @version 1.0.18
  */
 public class Globals {
     public static final int DISPLAY_WIDTH           = 1280;
@@ -22,6 +22,8 @@ public class Globals {
     public static final String SKYBOX_FRAGMENT_FILE     = "res/shaders/skyboxFragment.glsl";
     public static final String WATER_VERTEX_FILE        = "res/shaders/waterVertex.glsl";
     public static final String WATER_FRAGMENT_FILE      = "res/shaders/waterFragment.glsl";
+    public static final String NORMAL_MAP_VERTEX_FILE   = "res/shaders/normalMapVertex.glsl";
+    public static final String NORMAL_MAP_FRAGMENT_FILE = "res/shaders/normalMapFragment.glsl";
     
     public static final String TEXTURE_TYPE         = "PNG";
     public static final String TEXTURE_FOLDER       = "res/textures/";

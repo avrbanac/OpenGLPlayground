@@ -5,7 +5,7 @@ package hr.avrbanac.openglplayground.maths;
  * Custom Vector class (construct) to be used with LWJGL3.
  * 
  * @author avrbanac
- * @version 1.0.15
+ * @version 1.0.18
  */
 public class Vector3f {
     
@@ -55,7 +55,20 @@ public class Vector3f {
                 ? new Vector3f(left.x + right.x, left.y + right.y, left.z + right.z)
                 : dest.set(left.x + right.x, left.y + right.y, left.z + right.z);
     }
+    
+    public static Vector3f sub(Vector3f left, Vector3f right, Vector3f dest) {
+        return (dest == null)
+                ? new Vector3f(left.x - right.x, left.y - right.y, left.z - right.z)
+                : dest.set(left.x - right.x, left.y - right.y, left.z - right.z);
+    }
 
+    public Vector3f scale(float scale) {
+        x *= scale;
+        y *= scale;
+        z *= scale;
+        
+        return this;
+    }
 
     @Override
     public String toString() {
